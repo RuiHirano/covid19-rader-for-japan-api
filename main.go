@@ -111,7 +111,7 @@ func calcStats(patients []types.Patient) []types.Stat {
 	dfPatients := dataframe.LoadStructs(patients)
 
 	//fmt.Printf("dfStats: ", dfStats)
-	fmt.Printf("dfPatients: ", dfPatients)
+	//fmt.Printf("dfPatients: ", dfPatients)
 	firstDate := rawStats[0].Date
 	for i, stat := range rawStats {
 		if stat.Date == firstDate {
@@ -242,7 +242,7 @@ func calcStats(patients []types.Patient) []types.Stat {
 func calcSexData(patients []*types.Patient) *types.SexData {
 	sexData := &types.SexData{Female: 0, Male: 0, Unknown: 0}
 	for _, patient := range patients {
-		fmt.Printf("gender %v\n", patient.Sex, patient, patient.Age)
+		//fmt.Printf("gender %v\n", patient.Sex, patient, patient.Age)
 		if patient.Sex == "女性" {
 			sexData.Female++
 		} else if patient.Sex == "男性" {
@@ -288,7 +288,7 @@ func fetchPatients() []types.Patient {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(" doc", doc)
+	//fmt.Println(" doc", doc)
 	patients := []types.Patient{}
 	selection := doc.Find("tbody")
 	innerSelection := selection.Find("tr")
@@ -337,10 +337,6 @@ func fetchPatients() []types.Patient {
 		})
 		patients = append(patients, patient)
 	})
-
-	for _, patient := range patients {
-		fmt.Println("patient %v\n", patient)
-	}
 	return patients
 }
 
@@ -377,9 +373,6 @@ func fetchDetailByRegion() []types.Stat {
 		stats = append(stats, stat)
 	})
 
-	for _, stat := range stats {
-		fmt.Println("stat %v\n", stat)
-	}
 	return stats
 }
 
@@ -411,16 +404,12 @@ func fetchPrefectures() []types.Prefecture {
 		})
 		prefectures = append(prefectures, prefecture)
 	})
-
-	for _, prefecture := range prefectures {
-		fmt.Println("prefecture %v\n", prefecture)
-	}
 	return prefectures
 }
 
 func fetchTotalData() *types.TotalData {
 	// file取得
-	fmt.Printf("get total data\n")
+	//fmt.Printf("get total data\n")
 
 	// 感染者一覧
 	url := "https://covid19-japan-web-api.now.sh/api/v1/total"
