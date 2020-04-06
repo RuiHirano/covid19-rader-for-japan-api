@@ -102,9 +102,9 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v1/prefectures
 
 ## Statistics
 
-**Endpont**: [https://covid19-japan-web-api.now.sh/api/v1/stats](https://covid19-japan-web-api.now.sh/api/v1/stats)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/stats](https://covid19-rader-for-japan.appspot.com/api/v1/stats)
 ```bash
-$ curl https://covid19-japan-web-api.now.sh/api/v1/stats
+$ curl https://covid19-rader-for-japan.appspot.com/api/v1/stats
 ```
 
 **Response:**
