@@ -50,6 +50,26 @@ func fetchData() {
 	dailyReport := fetchDailyReport()
 	handler.APIData.DailyReport = dailyReport
 
+	// dailyPositiveByPref data
+	dailyPositiveByPref := fetchDailyPositiveByPref()
+	handler.APIData.DailyPositiveByPref = dailyPositiveByPref
+
+	// dailyDeathByPref data
+	dailyDeathByPref := fetchDailyDeathByPref()
+	handler.APIData.DailyDeathByPref = dailyDeathByPref
+
+	// dailyCallcenter data
+	dailyCallcenter := fetchDailyCallcenter()
+	handler.APIData.DailyCallcenter = dailyCallcenter
+
+	// dailyShip data
+	dailyShip := fetchDailyShip()
+	handler.APIData.DailyShip = dailyShip
+
+	// news data
+	news := fetchNews()
+	handler.APIData.News = news
+
 	// stats data
 	stats := calcStats(patients)
 	handler.APIData.Stats = stats
@@ -481,6 +501,339 @@ func fetchDailyReport() []types.DateReport {
 	return dailyReport
 }
 
+func fetchDailyPositiveByPref() []types.DatePositiveByPref {
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/byDate.csv")
+	if err != nil {
+		panic(err)
+	}
+	dailyPositiveByPref := []types.DatePositiveByPref{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		datePositiveByPref := types.NewDatePositiveByPref()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				datePositiveByPref.Date = s2.Text()
+			case 2:
+				datePositiveByPref.Hokkaido = s2.Text()
+			case 3:
+				datePositiveByPref.Aomori = s2.Text()
+			case 4:
+				datePositiveByPref.Iwate = s2.Text()
+			case 5:
+				datePositiveByPref.Miyagi = s2.Text()
+			case 6:
+				datePositiveByPref.Akita = s2.Text()
+			case 7:
+				datePositiveByPref.Yamagata = s2.Text()
+			case 8:
+				datePositiveByPref.Fukushima = s2.Text()
+			case 9:
+				datePositiveByPref.Ibaraki = s2.Text()
+			case 10:
+				datePositiveByPref.Tochigi = s2.Text()
+			case 11:
+				datePositiveByPref.Gunma = s2.Text()
+			case 12:
+				datePositiveByPref.Saitama = s2.Text()
+			case 13:
+				datePositiveByPref.Chiba = s2.Text()
+			case 14:
+				datePositiveByPref.Tokyo = s2.Text()
+			case 15:
+				datePositiveByPref.Kanagawa = s2.Text()
+			case 16:
+				datePositiveByPref.Niigata = s2.Text()
+			case 17:
+				datePositiveByPref.Toyama = s2.Text()
+			case 18:
+				datePositiveByPref.Ishikawa = s2.Text()
+			case 19:
+				datePositiveByPref.Fukui = s2.Text()
+			case 20:
+				datePositiveByPref.Yamanashi = s2.Text()
+			case 21:
+				datePositiveByPref.Nagano = s2.Text()
+			case 22:
+				datePositiveByPref.Gifu = s2.Text()
+			case 23:
+				datePositiveByPref.Shizuoka = s2.Text()
+			case 24:
+				datePositiveByPref.Aichi = s2.Text()
+			case 25:
+				datePositiveByPref.Mie = s2.Text()
+			case 26:
+				datePositiveByPref.Shiga = s2.Text()
+			case 27:
+				datePositiveByPref.Kyoto = s2.Text()
+			case 28:
+				datePositiveByPref.Osaka = s2.Text()
+			case 29:
+				datePositiveByPref.Hyogo = s2.Text()
+			case 30:
+				datePositiveByPref.Nara = s2.Text()
+			case 31:
+				datePositiveByPref.Wakayama = s2.Text()
+			case 32:
+				datePositiveByPref.Tottori = s2.Text()
+			case 33:
+				datePositiveByPref.Shimane = s2.Text()
+			case 34:
+				datePositiveByPref.Okayama = s2.Text()
+			case 35:
+				datePositiveByPref.Hiroshima = s2.Text()
+			case 36:
+				datePositiveByPref.Yamaguchi = s2.Text()
+			case 37:
+				datePositiveByPref.Tokushima = s2.Text()
+			case 38:
+				datePositiveByPref.Kagawa = s2.Text()
+			case 39:
+				datePositiveByPref.Ehime = s2.Text()
+			case 40:
+				datePositiveByPref.Kochi = s2.Text()
+			case 41:
+				datePositiveByPref.Fukuoka = s2.Text()
+			case 42:
+				datePositiveByPref.Saga = s2.Text()
+			case 43:
+				datePositiveByPref.Nagasaki = s2.Text()
+			case 44:
+				datePositiveByPref.Kumamoto = s2.Text()
+			case 45:
+				datePositiveByPref.Oita = s2.Text()
+			case 46:
+				datePositiveByPref.Miyazaki = s2.Text()
+			case 47:
+				datePositiveByPref.Kagoshima = s2.Text()
+			case 48:
+				datePositiveByPref.Okinawa = s2.Text()
+			case 49:
+				datePositiveByPref.Charter = s2.Text()
+			case 50:
+				datePositiveByPref.QuarantineOfficer = s2.Text()
+			case 51:
+				datePositiveByPref.Cruise = s2.Text()
+			}
+		})
+		dailyPositiveByPref = append(dailyPositiveByPref, datePositiveByPref)
+	})
+	return dailyPositiveByPref
+}
+
+func fetchDailyDeathByPref() []types.DateDeathByPref {
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/death.csv")
+	if err != nil {
+		panic(err)
+	}
+	dailyDeathByPref := []types.DateDeathByPref{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		dateDeathByPref := types.NewDateDeathByPref()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				dateDeathByPref.Date = s2.Text()
+			case 2:
+				dateDeathByPref.Hokkaido = s2.Text()
+			case 3:
+				dateDeathByPref.Aomori = s2.Text()
+			case 4:
+				dateDeathByPref.Iwate = s2.Text()
+			case 5:
+				dateDeathByPref.Miyagi = s2.Text()
+			case 6:
+				dateDeathByPref.Akita = s2.Text()
+			case 7:
+				dateDeathByPref.Yamagata = s2.Text()
+			case 8:
+				dateDeathByPref.Fukushima = s2.Text()
+			case 9:
+				dateDeathByPref.Ibaraki = s2.Text()
+			case 10:
+				dateDeathByPref.Tochigi = s2.Text()
+			case 11:
+				dateDeathByPref.Gunma = s2.Text()
+			case 12:
+				dateDeathByPref.Saitama = s2.Text()
+			case 13:
+				dateDeathByPref.Chiba = s2.Text()
+			case 14:
+				dateDeathByPref.Tokyo = s2.Text()
+			case 15:
+				dateDeathByPref.Kanagawa = s2.Text()
+			case 16:
+				dateDeathByPref.Niigata = s2.Text()
+			case 17:
+				dateDeathByPref.Toyama = s2.Text()
+			case 18:
+				dateDeathByPref.Ishikawa = s2.Text()
+			case 19:
+				dateDeathByPref.Fukui = s2.Text()
+			case 20:
+				dateDeathByPref.Yamanashi = s2.Text()
+			case 21:
+				dateDeathByPref.Nagano = s2.Text()
+			case 22:
+				dateDeathByPref.Gifu = s2.Text()
+			case 23:
+				dateDeathByPref.Shizuoka = s2.Text()
+			case 24:
+				dateDeathByPref.Aichi = s2.Text()
+			case 25:
+				dateDeathByPref.Mie = s2.Text()
+			case 26:
+				dateDeathByPref.Shiga = s2.Text()
+			case 27:
+				dateDeathByPref.Kyoto = s2.Text()
+			case 28:
+				dateDeathByPref.Osaka = s2.Text()
+			case 29:
+				dateDeathByPref.Hyogo = s2.Text()
+			case 30:
+				dateDeathByPref.Nara = s2.Text()
+			case 31:
+				dateDeathByPref.Wakayama = s2.Text()
+			case 32:
+				dateDeathByPref.Tottori = s2.Text()
+			case 33:
+				dateDeathByPref.Shimane = s2.Text()
+			case 34:
+				dateDeathByPref.Okayama = s2.Text()
+			case 35:
+				dateDeathByPref.Hiroshima = s2.Text()
+			case 36:
+				dateDeathByPref.Yamaguchi = s2.Text()
+			case 37:
+				dateDeathByPref.Tokushima = s2.Text()
+			case 38:
+				dateDeathByPref.Kagawa = s2.Text()
+			case 39:
+				dateDeathByPref.Ehime = s2.Text()
+			case 40:
+				dateDeathByPref.Kochi = s2.Text()
+			case 41:
+				dateDeathByPref.Fukuoka = s2.Text()
+			case 42:
+				dateDeathByPref.Saga = s2.Text()
+			case 43:
+				dateDeathByPref.Nagasaki = s2.Text()
+			case 44:
+				dateDeathByPref.Kumamoto = s2.Text()
+			case 45:
+				dateDeathByPref.Oita = s2.Text()
+			case 46:
+				dateDeathByPref.Miyazaki = s2.Text()
+			case 47:
+				dateDeathByPref.Kagoshima = s2.Text()
+			case 48:
+				dateDeathByPref.Okinawa = s2.Text()
+			case 49:
+				dateDeathByPref.Charter = s2.Text()
+			case 50:
+				dateDeathByPref.QuarantineOfficer = s2.Text()
+			case 51:
+				dateDeathByPref.Cruise = s2.Text()
+			}
+		})
+		dailyDeathByPref = append(dailyDeathByPref, dateDeathByPref)
+	})
+	return dailyDeathByPref
+}
+
+func fetchDailyCallcenter() []types.DateCallcenter {
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/callCenter.csv")
+	if err != nil {
+		panic(err)
+	}
+	dailyCallcenter := []types.DateCallcenter{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		dateCallcenter := types.NewDateCallcenter()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				dateCallcenter.Date = s2.Text()
+			case 2:
+				dateCallcenter.Call = s2.Text()
+			case 3:
+				dateCallcenter.Fax = s2.Text()
+			case 4:
+				dateCallcenter.Mail = s2.Text()
+			case 5:
+				dateCallcenter.Line = s2.Text()
+			}
+		})
+		dailyCallcenter = append(dailyCallcenter, dateCallcenter)
+	})
+	return dailyCallcenter
+}
+
+func fetchDailyShip() []types.DateShip {
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/shipDailyReport.csv")
+	if err != nil {
+		panic(err)
+	}
+	dailyShip := []types.DateShip{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		dateShip := types.NewDateShip()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				dateShip.Date = s2.Text()
+			case 2:
+				dateShip.Pcr = s2.Text()
+			case 3:
+				dateShip.Positive = s2.Text()
+			case 4:
+				dateShip.Discharge = s2.Text()
+			case 5:
+				dateShip.SymotomlessDischarge = s2.Text()
+			case 6:
+				dateShip.SymotomDischarge = s2.Text()
+			case 7:
+				dateShip.Severe = s2.Text()
+			case 8:
+				dateShip.Death = s2.Text()
+			}
+		})
+		dailyShip = append(dailyShip, dateShip)
+	})
+	return dailyShip
+}
+
+func fetchNews() []types.News {
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/mhlw_houdou.csv")
+	if err != nil {
+		panic(err)
+	}
+	news := []types.News{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		ns := types.NewNews()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				ns.ID = s2.Text()
+			case 2:
+				ns.Date = s2.Text()
+			case 3:
+				ns.Title = s2.Text()
+			case 4:
+				ns.Link = s2.Text()
+			}
+		})
+		news = append(news, ns)
+	})
+	return news
+}
+
 func main() {
 	fmt.Printf("Starting...")
 
@@ -492,10 +845,15 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	e.GET("/api/v1/stats", handler.SendStats())              // 統計データ
-	e.GET("/api/v1/patients", handler.SendPatients())        // 統計データ
-	e.GET("/api/v1/prefectures", handler.SendPrefectures())  // 統計データ
-	e.GET("/api/v1/daily-report", handler.SendDailyReport()) // 日ごとの統計データ
+	e.GET("/api/v1/stats", handler.SendStats())                                // 統計データ
+	e.GET("/api/v1/patients", handler.SendPatients())                          // 統計データ
+	e.GET("/api/v1/prefectures", handler.SendPrefectures())                    // 統計データ
+	e.GET("/api/v1/daily/report", handler.SendDailyReport())                   // 日ごとの統計データ
+	e.GET("/api/v1/daily/positive-by-pref", handler.SendDailyPositiveByPref()) // 日ごと、都道府県ごとの感染者データ
+	e.GET("/api/v1/daily/death-by-pref", handler.SendDailyDeathByPref())       // 日ごと、都道府県ごとの感染者データ
+	e.GET("/api/v1/daily/callcenter", handler.SendDailyCallcenter())           // 日ごと、都道府県ごとの感染者データ
+	e.GET("/api/v1/daily/ship", handler.SendDailyShip())                       // 日ごと、都道府県ごとの感染者データ
+	e.GET("/api/v1/news", handler.SendNews())                                  // 日ごと、都道府県ごとの感染者データ
 
 	port := os.Getenv("PORT")
 	if port == "" {

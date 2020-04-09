@@ -258,3 +258,286 @@ func NewDateReport() DateReport {
 	}
 	return s
 }
+
+type News struct {
+	ID    string `json:"id"`
+	Date  string `json:"date"`
+	Title string `json:"title"`
+	Link  string `json:"link`
+}
+
+func NewNews() News {
+	s := News{
+		ID:    "",
+		Date:  "",
+		Title: "",
+		Link:  "",
+	}
+	return s
+}
+
+type DateShip struct {
+	Date                 string `json:"date"`
+	Pcr                  string `json:"pcr"`
+	Positive             string `json:"positive"`
+	Discharge            string `json:"discharge"` // 累計
+	SymotomlessDischarge string `json:"symotomless_discharge"`
+	SymotomDischarge     string `json:"symotom_discharge"` // 累計
+	Severe               string `json:"severe"`
+	Death                string `json:"death"` // 累計
+}
+
+func NewDateShip() DateShip {
+	s := DateShip{
+		Date:                 "",
+		Pcr:                  "",
+		Positive:             "",
+		Discharge:            "",
+		SymotomlessDischarge: "",
+		SymotomDischarge:     "",
+		Severe:               "",
+		Death:                "",
+	}
+	return s
+}
+
+type DateCallcenter struct {
+	Date string `json:"date"`
+	Call string `json:"call"`
+	Fax  string `json:"fax"`
+	Mail string `json:"mail"`
+	Line string `json:"line"`
+}
+
+func NewDateCallcenter() DateCallcenter {
+	s := DateCallcenter{
+		Date: "",
+		Call: "",
+		Fax:  "",
+		Mail: "",
+		Line: "",
+	}
+	return s
+}
+
+type DateDeathByPref struct {
+	Date              string `json:"date"`
+	Hokkaido          string `json:"hokkaido"`
+	Aomori            string `json:"aomori"`
+	Iwate             string `json:"iwate"`
+	Miyagi            string `json:"miyagi"`
+	Akita             string `json:"akita"`
+	Yamagata          string `json:"yamagata"`
+	Fukushima         string `json:"fukushima"`
+	Ibaraki           string `json:"ibaraki"`
+	Tochigi           string `json:"tochigi"`
+	Gunma             string `json:"gunma"`
+	Saitama           string `json:"saitama"`
+	Chiba             string `json:"chiba"`
+	Tokyo             string `json:"tokyo"`
+	Kanagawa          string `json:"kanagawa"`
+	Niigata           string `json:"niigata"`
+	Toyama            string `json:"toyama"`
+	Ishikawa          string `json:"ishikawa"`
+	Fukui             string `json:"fukui"`
+	Yamanashi         string `json:"yamanashi"`
+	Nagano            string `json:"nagano"`
+	Gifu              string `json:"gifu"`
+	Shizuoka          string `json:"shizuoka"`
+	Aichi             string `json:"aichi"`
+	Mie               string `json:"mie"`
+	Shiga             string `json:"shiga"`
+	Kyoto             string `json:"kyoto"`
+	Osaka             string `json:"osaka"`
+	Hyogo             string `json:"hyogo"`
+	Nara              string `json:"nara"`
+	Wakayama          string `json:"wakayama"`
+	Tottori           string `json:"tottori"`
+	Shimane           string `json:"shimane"`
+	Okayama           string `json:"okayama"`
+	Hiroshima         string `json:"hiroshima"`
+	Yamaguchi         string `json:"yamaguchi"`
+	Tokushima         string `json:"tokushima"`
+	Kagawa            string `json:"kagawa"`
+	Ehime             string `json:"ehime"`
+	Kochi             string `json:"kochi"`
+	Fukuoka           string `json:"fukuoka"`
+	Saga              string `json:"saga"`
+	Nagasaki          string `json:"nagasaki"`
+	Kumamoto          string `json:"kumamoto"`
+	Oita              string `json:"oita"`
+	Miyazaki          string `json:"miyazaki"`
+	Kagoshima         string `json:"kagoshima"`
+	Okinawa           string `json:"okinawa"`
+	Charter           string `json:"Charter"`
+	QuarantineOfficer string `json:"quarantine_officer"`
+	Cruise            string `json:"cruise"`
+}
+
+func NewDateDeathByPref() DateDeathByPref {
+	s := DateDeathByPref{
+		Date:              "",
+		Hokkaido:          "",
+		Aomori:            "",
+		Iwate:             "",
+		Miyagi:            "",
+		Akita:             "",
+		Yamagata:          "",
+		Fukushima:         "",
+		Ibaraki:           "",
+		Tochigi:           "",
+		Gunma:             "",
+		Saitama:           "",
+		Chiba:             "",
+		Tokyo:             "",
+		Kanagawa:          "",
+		Niigata:           "",
+		Toyama:            "",
+		Ishikawa:          "",
+		Fukui:             "",
+		Yamanashi:         "",
+		Nagano:            "",
+		Gifu:              "",
+		Shizuoka:          "",
+		Aichi:             "",
+		Mie:               "",
+		Shiga:             "",
+		Kyoto:             "",
+		Osaka:             "",
+		Hyogo:             "",
+		Nara:              "",
+		Wakayama:          "",
+		Tottori:           "",
+		Shimane:           "",
+		Okayama:           "",
+		Hiroshima:         "",
+		Yamaguchi:         "",
+		Tokushima:         "",
+		Kagawa:            "",
+		Ehime:             "",
+		Kochi:             "",
+		Fukuoka:           "",
+		Saga:              "",
+		Nagasaki:          "",
+		Kumamoto:          "",
+		Oita:              "",
+		Miyazaki:          "",
+		Kagoshima:         "",
+		Okinawa:           "",
+		Charter:           "",
+		QuarantineOfficer: "",
+		Cruise:            "",
+	}
+	return s
+}
+
+type DatePositiveByPref struct {
+	Date              string `json:"date"`
+	Hokkaido          string `json:"hokkaido"`
+	Aomori            string `json:"aomori"`
+	Iwate             string `json:"iwate"`
+	Miyagi            string `json:"miyagi"`
+	Akita             string `json:"akita"`
+	Yamagata          string `json:"yamagata"`
+	Fukushima         string `json:"fukushima"`
+	Ibaraki           string `json:"ibaraki"`
+	Tochigi           string `json:"tochigi"`
+	Gunma             string `json:"gunma"`
+	Saitama           string `json:"saitama"`
+	Chiba             string `json:"chiba"`
+	Tokyo             string `json:"tokyo"`
+	Kanagawa          string `json:"kanagawa"`
+	Niigata           string `json:"niigata"`
+	Toyama            string `json:"toyama"`
+	Ishikawa          string `json:"ishikawa"`
+	Fukui             string `json:"fukui"`
+	Yamanashi         string `json:"yamanashi"`
+	Nagano            string `json:"nagano"`
+	Gifu              string `json:"gifu"`
+	Shizuoka          string `json:"shizuoka"`
+	Aichi             string `json:"aichi"`
+	Mie               string `json:"mie"`
+	Shiga             string `json:"shiga"`
+	Kyoto             string `json:"kyoto"`
+	Osaka             string `json:"osaka"`
+	Hyogo             string `json:"hyogo"`
+	Nara              string `json:"nara"`
+	Wakayama          string `json:"wakayama"`
+	Tottori           string `json:"tottori"`
+	Shimane           string `json:"shimane"`
+	Okayama           string `json:"okayama"`
+	Hiroshima         string `json:"hiroshima"`
+	Yamaguchi         string `json:"yamaguchi"`
+	Tokushima         string `json:"tokushima"`
+	Kagawa            string `json:"kagawa"`
+	Ehime             string `json:"ehime"`
+	Kochi             string `json:"kochi"`
+	Fukuoka           string `json:"fukuoka"`
+	Saga              string `json:"saga"`
+	Nagasaki          string `json:"nagasaki"`
+	Kumamoto          string `json:"kumamoto"`
+	Oita              string `json:"oita"`
+	Miyazaki          string `json:"miyazaki"`
+	Kagoshima         string `json:"kagoshima"`
+	Okinawa           string `json:"okinawa"`
+	Charter           string `json:"Charter"`
+	QuarantineOfficer string `json:"quarantine_officer"`
+	Cruise            string `json:"cruise"`
+}
+
+func NewDatePositiveByPref() DatePositiveByPref {
+	s := DatePositiveByPref{
+		Date:              "",
+		Hokkaido:          "",
+		Aomori:            "",
+		Iwate:             "",
+		Miyagi:            "",
+		Akita:             "",
+		Yamagata:          "",
+		Fukushima:         "",
+		Ibaraki:           "",
+		Tochigi:           "",
+		Gunma:             "",
+		Saitama:           "",
+		Chiba:             "",
+		Tokyo:             "",
+		Kanagawa:          "",
+		Niigata:           "",
+		Toyama:            "",
+		Ishikawa:          "",
+		Fukui:             "",
+		Yamanashi:         "",
+		Nagano:            "",
+		Gifu:              "",
+		Shizuoka:          "",
+		Aichi:             "",
+		Mie:               "",
+		Shiga:             "",
+		Kyoto:             "",
+		Osaka:             "",
+		Hyogo:             "",
+		Nara:              "",
+		Wakayama:          "",
+		Tottori:           "",
+		Shimane:           "",
+		Okayama:           "",
+		Hiroshima:         "",
+		Yamaguchi:         "",
+		Tokushima:         "",
+		Kagawa:            "",
+		Ehime:             "",
+		Kochi:             "",
+		Fukuoka:           "",
+		Saga:              "",
+		Nagasaki:          "",
+		Kumamoto:          "",
+		Oita:              "",
+		Miyazaki:          "",
+		Kagoshima:         "",
+		Okinawa:           "",
+		Charter:           "",
+		QuarantineOfficer: "",
+		Cruise:            "",
+	}
+	return s
+}
