@@ -43,6 +43,18 @@ spec:
           value: "true"
         - name: BACKEND_HOST
           value: "localhost:5000"
+        livenessProbe:
+          httpGet:
+            port: 80
+            path: /api/v1/patients
+          failureThreshold: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            port: 80
+            path: /api/v1/patients
+          failureThreshold: 5
+          periodSeconds: 5
       - name: backend
         image: ruihirano/covid19-rader-for-japan-backend-api:latest
         imagePullPolicy: Always
