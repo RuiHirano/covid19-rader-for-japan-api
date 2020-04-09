@@ -5,11 +5,11 @@ import (
 
 	//"bytes"
 
-	"encoding/json"
+	//"encoding/json"
 	"fmt"
 	"strconv"
 
-	"io/ioutil"
+	//"io/ioutil"
 
 	"handler"
 	"log"
@@ -19,7 +19,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 
-	"net/http"
+	//"net/http"
 
 	"github.com/carlescere/scheduler"
 	"github.com/go-gota/gota/dataframe"
@@ -37,69 +37,20 @@ func fetchDataSceduler() {
 }
 
 func fetchData() {
-	// patientsData
-	/*patients := fetchPatients()
-	handler.APIData.PatientsData = patients
 
-	// totalStatsData
-	totalData := fetchTotalData()
-	totalData.SexData = calcSexData(patients)
-	totalData.AgeData = calcAgeData(patients)
-	handler.APIData.TotalData = totalData
-
-	// prefsStatsData
-	// prefsPatientsData
-	prefsData := fetchPrefsData()
-	prefsPatients := []*types.PrefPatientsData{}
-	for i, prefData := range prefsData {
-		prefPatients := []*types.Patient{}
-		for _, patient := range patients {
-			if patient.Prefecture == prefData.NameJa {
-				prefPatients = append(prefPatients, patient)
-			}
-		}
-		prefsData[i].SexData = calcSexData(prefPatients)
-		prefsData[i].AgeData = calcAgeData(prefPatients)
-		prefsPatients = append(prefsPatients, &types.PrefPatientsData{
-			Id:       prefData.Id,
-			NameJa:   prefData.NameJa,
-			NameEn:   prefData.NameEn,
-			Lat:      prefData.Lat,
-			Lng:      prefData.Lng,
-			Patients: prefPatients,
-		})
-	}
-	handler.APIData.PrefsPatientsData = prefsPatients
-	handler.APIData.PrefsData = prefsData
-
-	// prefsStatsData
-	// prefsPatientsData
-	dailyData := []*types.DateData{}
-	dailyPatients := []*types.DatePatientsData{}
-	dailyPatientsMap := map[string]*types.DatePatientsData{}
-	for _, patient := range patients {
-		date := patient.Onset
-		if dailyPatientsMap[date] == nil { // 初期値がない場合代入
-			dailyPatientsMap[date] = &types.DatePatientsData{
-				Date:     date,
-				Patients: []*types.Patient{patient},
-			}
-		} else {
-
-		}
-
-	}
-	handler.APIData.DailyPatientsData = dailyPatients
-	handler.APIData.DailyData = dailyData
-
-	//fetchDailyPrefsData(dailyPatients)
-	//fetchPrefsDailyData(prefsPatients)*/
-
+	// patients data
 	patients := fetchPatients()
-	prefectures := fetchPrefectures()
 	handler.APIData.Patients = patients
+
+	// prefectures data
+	prefectures := fetchPrefectures()
 	handler.APIData.Prefectures = prefectures
 
+	// dailyReport data
+	dailyReport := fetchDailyReport()
+	handler.APIData.DailyReport = dailyReport
+
+	// stats data
 	stats := calcStats(patients)
 	handler.APIData.Stats = stats
 }
@@ -415,84 +366,119 @@ func fetchPrefectures() []types.Prefecture {
 	return prefectures
 }
 
-func fetchTotalData() *types.TotalData {
-	// file取得
-	//fmt.Printf("get total data\n")
-
-	// 感染者一覧
-	url := "https://covid19-japan-web-api.now.sh/api/v1/total"
-
-	request, err := http.NewRequest("GET", url, nil)
-	request.Header.Add("Content-Type", "application/json")
-
-	response, err := http.DefaultClient.Do(request)
+func fetchDailyReport() []types.DateReport {
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/resultDailyReport.csv")
 	if err != nil {
-		log.Printf("Error2 occur...")
-		return nil
-		//log.Printf(err)
+		panic(err)
 	}
-	defer response.Body.Close()
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		log.Printf("Error3 occur...")
-		return nil
-		//log.Printf(err)
-	}
-
-	//fmt.Printf("data is %v\n", body)
-	var totalData *types.TotalData
-	err = json.Unmarshal(body, &totalData)
-	if err != nil {
-		log.Printf("Error4 occur...")
-		return nil
-		//log.Printf(err)
-	}
-
-	fmt.Printf("totalData is %v\n", totalData)
-	handler.APIData.TotalData = totalData
-	return totalData
-
-}
-
-// 県ごとの感染者数、死者数
-func fetchPrefsData() []*types.PrefData {
-	// file取得
-	fmt.Printf("get prefs data\n")
-
-	// 感染者一覧
-	url := "https://covid19-japan-web-api.now.sh/api/v1/prefectures"
-
-	request, err := http.NewRequest("GET", url, nil)
-	request.Header.Add("Content-Type", "application/json")
-
-	response, err := http.DefaultClient.Do(request)
-	if err != nil {
-		log.Printf("Error2 occur...")
-		return nil
-		//log.Printf(err)
-	}
-	defer response.Body.Close()
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		log.Printf("Error3 occur...")
-		return nil
-		//log.Printf(err)
-	}
-
-	fmt.Printf("data is %v\n", body)
-	var prefs []*types.PrefData
-	err = json.Unmarshal(body, &prefs)
-	if err != nil {
-		log.Printf("Error4 occur...")
-		return nil
-	}
-	for _, pref := range prefs {
-		fmt.Printf("pref is %v\n", pref)
-	}
-	fmt.Printf("prefNum is %v\n", len(prefs))
-
-	handler.APIData.PrefsData = prefs
-	return prefs
+	dailyReport := []types.DateReport{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		dateReport := types.NewDateReport()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				dateReport.Date = s2.Text()
+			case 2:
+				dateReport.PcrD = s2.Text()
+			case 3:
+				dateReport.PositiveD = s2.Text()
+			case 4:
+				dateReport.SymptomD = s2.Text()
+			case 5:
+				dateReport.SymptomlessD = s2.Text()
+			case 6:
+				dateReport.SymptomConfirmingD = s2.Text()
+			case 7:
+				dateReport.HospitalizeD = s2.Text()
+			case 8:
+				dateReport.MildD = s2.Text()
+			case 9:
+				dateReport.SevereD = s2.Text()
+			case 10:
+				dateReport.ConfirmingD = s2.Text()
+			case 11:
+				dateReport.WaitingD = s2.Text()
+			case 12:
+				dateReport.DischargeD = s2.Text()
+			case 13:
+				dateReport.DeathD = s2.Text()
+			case 14:
+				dateReport.PcrF = s2.Text()
+			case 15:
+				dateReport.PositiveF = s2.Text()
+			case 16:
+				dateReport.SymptomF = s2.Text()
+			case 17:
+				dateReport.SymptomlessF = s2.Text()
+			case 18:
+				dateReport.SymptomConfirmingF = s2.Text()
+			case 19:
+				dateReport.HospitalizeF = s2.Text()
+			case 20:
+				dateReport.MildF = s2.Text()
+			case 21:
+				dateReport.SevereF = s2.Text()
+			case 22:
+				dateReport.ConfirmingF = s2.Text()
+			case 23:
+				dateReport.WaitingF = s2.Text()
+			case 24:
+				dateReport.DischargeF = s2.Text()
+			case 25:
+				dateReport.DeathF = s2.Text()
+			case 26:
+				dateReport.PcrX = s2.Text()
+			case 27:
+				dateReport.PositiveX = s2.Text()
+			case 28:
+				dateReport.Symptom = s2.Text()
+			case 29:
+				dateReport.Symptomless = s2.Text()
+			case 30:
+				dateReport.SymptomConfirming = s2.Text()
+			case 31:
+				dateReport.Hospitalized = s2.Text()
+			case 32:
+				dateReport.Mild = s2.Text()
+			case 33:
+				dateReport.SevereX = s2.Text()
+			case 34:
+				dateReport.Confirming = s2.Text()
+			case 35:
+				dateReport.Waiting = s2.Text()
+			case 36:
+				dateReport.DischargeX = s2.Text()
+			case 37:
+				dateReport.DeathX = s2.Text()
+			case 38:
+				dateReport.PcrY = s2.Text()
+			case 39:
+				dateReport.PositiveY = s2.Text()
+			case 40:
+				dateReport.DischargeY = s2.Text()
+			case 41:
+				dateReport.SymptomlessDischarge = s2.Text()
+			case 42:
+				dateReport.SymptomDischarge = s2.Text()
+			case 43:
+				dateReport.SevereY = s2.Text()
+			case 44:
+				dateReport.DeathY = s2.Text()
+			case 45:
+				dateReport.Pcr = s2.Text()
+			case 46:
+				dateReport.Discharge = s2.Text()
+			case 47:
+				dateReport.PcrDiff = s2.Text()
+			case 48:
+				dateReport.DischargeDiff = s2.Text()
+			}
+		})
+		dailyReport = append(dailyReport, dateReport)
+	})
+	return dailyReport
 }
 
 func main() {
@@ -506,19 +492,10 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	e.GET("/api/v1/stats", handler.SendStats())             // 統計データ
-	e.GET("/api/v1/patients", handler.SendPatients())       // 統計データ
-	e.GET("/api/v1/prefectures", handler.SendPrefectures()) // 統計データ
-	//e.GET("/api/v1/stats/daily", handler.SendDailyData())                            // 日ごとの統計データ
-	e.GET("/api/v1/stats/prefectures", handler.SendPrefsData()) // 都道府県ごとの統計データ
-	//e.GET("/api/v1/stats/daily-prefectures", handler.SendDailyPrefData())                // 日時、都道府県ごとの統計データ
-	//e.GET("/api/v1/stats/prefectures-daily", handler.SendPrefsDailyData())                // 日時、都道府県ごとの統計データ
-	e.GET("/api/v1/stats/total", handler.SendTotalData())       // 日本全体としての統計データ
-	e.GET("/api/v1/patients/total", handler.SendPatientsData()) // 患者一人一人のデータ
-	//e.GET("/api/v1/patients/daily", handler.SendDailyPatientsData())                 // 日付ごとの患者データ
-	//e.GET("/api/v1/patients/prefecture", handler.SendPrefPatientsData())             // 都道府県ごとの患者データ
-	//e.GET("/api/v1/patients/daily-prefectures", handler.SendDailyPrefPatientsData()) // 日付,都道府県ごとの患者データ
-	//e.GET("/api/v1/patients/prefectures-daily", handler.SendPrefsDailyPatientsData()) // 日付,都道府県ごとの患者データ
+	e.GET("/api/v1/stats", handler.SendStats())              // 統計データ
+	e.GET("/api/v1/patients", handler.SendPatients())        // 統計データ
+	e.GET("/api/v1/prefectures", handler.SendPrefectures())  // 統計データ
+	e.GET("/api/v1/daily-report", handler.SendDailyReport()) // 日ごとの統計データ
 
 	port := os.Getenv("PORT")
 	if port == "" {
