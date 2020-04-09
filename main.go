@@ -300,7 +300,7 @@ func fetchPatients() []types.Patient {
 	patients := []types.Patient{}
 	selection := doc.Find("tbody")
 	innerSelection := selection.Find("tr")
-	innerSelection.Each(func(i int, s *goquery.Selection) {
+	innerSelection.Next().Each(func(i int, s *goquery.Selection) {
 		patient := types.NewPatient()
 		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
 			switch k {
