@@ -1,5 +1,7 @@
 # COVID-19 Rader for Japan Web API
 
+<img src="https://user-images.githubusercontent.com/43264434/78895987-b781fd80-7aaa-11ea-874b-9c49d801e693.png" width=800>
+
 🦠 Web API to get COVID-19(coronavirus) information of each prefecture in Japan
 
 # Features
@@ -209,3 +211,26 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v1/stats
 # Data Sources
 
 * [swsoyee/2019-ncov-japan](https://github.com/swsoyee/2019-ncov-japan)
+
+
+# How to contribute
+## Rule of branch
+Please pull-request to development branch only. 
+Don't pull-request to master and staging branch.
+
+If you send pull-request, please follow the roles below.
+1. function addition: feature/#{ISSUE_ID}-#{branch_title_name}
+2. hotfix: hotfix/#{ISSUE_ID}-#{branch_title_name}
+
+## Basic branch
+| purpose | branch | remarks |
+| ---- | -------- | ---- |
+| Development | development | base branch. Basically send a Pull Request here |
+| Staging | staging | For final confirmation before production. Non-admin pull requests are forbidden |
+| Production | master | Non-admin pull requests are forbidden |
+
+
+# Contributers
+| [inductor](https://github.com/inductor) | [mattn](https://github.com/mattn) | [Yoshiteru Nagata](https://github.com/nagata-yoshiteru) |
+|:---|:---:|---:|
+<img src="https://avatars3.githubusercontent.com/u/20236173?s=400&u=d8dda91e4bc2bdc7736f607b36fa53c9e82e08db&v=4" width=100> |<img src="https://avatars3.githubusercontent.com/u/10111?s=400&u=52c03ac58f0027d43f6708fcbc3c2913f195439c&v=4" width=100> |<img src="https://avatars0.githubusercontent.com/u/38305549?s=400&v=4" width=100> |
