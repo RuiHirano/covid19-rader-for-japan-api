@@ -53,3 +53,15 @@ spec:
           value: "http://backend-calculator"
         - name: PORT
           value: "5000"
+        livenessProbe:
+          httpGet:
+            port: 5000
+            path: /api/v1/patients
+          failureThreshold: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            port: 5000
+            path: /api/v1/patients
+          failureThreshold: 5
+          periodSeconds: 5
