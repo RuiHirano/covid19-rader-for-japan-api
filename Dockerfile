@@ -5,8 +5,8 @@ WORKDIR $GOPATH/src/github.com/RuiHirano/covid19-rader-for-japan-api
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN go build -o /covid19-rader-for-japan-api
+RUN go build -o /main
 
 FROM debian:buster-slim
-COPY --from=builder /covid19-rader-for-japan-api /covid19-rader-for-japan-api
-CMD [ "/covid19-rader-for-japan-api"]
+COPY --from=builder /main /main
+CMD [ "/main"]
