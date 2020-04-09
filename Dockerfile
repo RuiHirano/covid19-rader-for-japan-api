@@ -1,10 +1,12 @@
-# ベースとなるDockerイメージ指定
-FROM golang:latest
-# コンテナ内に作業ディレクトリを作成
-RUN mkdir /go/src/work
+# app.yamlで指定してるランタイムバージョンが113なので1.13を指定する
+FROM golang:1.13 as builder
 # コンテナログイン時のディレクトリ指定
-WORKDIR /go/src/work
-
+WORKDIR $GOPATH/src/github.com/RuiHirano/covid19-rader-for-japan-api
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
+RUN go build -o /covid19-rader-for-japan-api
 
-CMD [ "go", "run", "main.go"]
+FROM debian:buster-slim
+COPY --from=builder /covid19-rader-for-japan-api /covid19-rader-for-japan-api
+CMD [ "/covid19-rader-for-japan-api"]
