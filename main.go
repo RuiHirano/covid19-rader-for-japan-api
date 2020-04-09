@@ -104,6 +104,14 @@ func fetchData() {
 	handler.APIData.Stats = stats
 }
 
+func makeF(colname string, comparator series.Comparator, comparando interface{}) dataframe.F {
+	return dataframe.F{
+		Colname:    colname,
+		Comparator: comparator,
+		Comparando: comparando,
+	}
+}
+
 func calcStats(patients []types.Patient) []types.Stat {
 	result := []types.Stat{}
 	rawStats := fetchDetailByRegion()
@@ -122,22 +130,22 @@ func calcStats(patients []types.Patient) []types.Stat {
 		pref := stat.Prefecture
 		// その日のpatientsデータ
 		dfTgt := dfPatients.Filter(
-			dataframe.F{"Prefecture", series.Eq, pref},
+			makeF("Prefecture", series.Eq, pref),
 		).Filter(
-			dataframe.F{"Date", series.Eq, date},
+			makeF("Date", series.Eq, date),
 		)
 		// その日以前全てのpatientsデータ
 		dfLtTgt := dfPatients.Filter(
-			dataframe.F{"Prefecture", series.Eq, pref},
+			makeF("Prefecture", series.Eq, pref),
 		).Filter(
-			dataframe.F{"Date", "<=", date},
+			makeF("Date", "<=", date),
 		)
 
 		// その日以前全てのstatsデータ
 		/*dfLtStats := dfStats.Filter(
-			dataframe.F{"Prefecture", series.Eq, pref},
+			makeF("Prefecture", series.Eq, pref),
 		).Filter(
-			dataframe.F{"Date", "<=", stat.Date},
+			makeF("Date", "<=", stat.Date),
 		)*/
 
 		// その日の発生件数と累計発生件数
@@ -149,10 +157,10 @@ func calcStats(patients []types.Patient) []types.Stat {
 		discharges := 0
 		hospitals := 0
 		prevStat := types.NewStat()
-		for _, stat_ := range rawStats {
+		for _, st := range rawStats {
 			date, _ := strconv.Atoi(stat.Date)
-			if stat_.Prefecture == pref && stat_.Date == strconv.Itoa(date-1) {
-				prevStat = stat_
+			if st.Prefecture == pref && st.Date == strconv.Itoa(date-1) {
+				prevStat = st
 			}
 		}
 		deaths = stat.TotalDeaths - prevStat.TotalDeaths
@@ -160,34 +168,34 @@ func calcStats(patients []types.Patient) []types.Stat {
 		hospitals = stat.TotalHospitals - prevStat.TotalHospitals
 
 		// 性別
-		maleNum := dfTgt.Filter(dataframe.F{"Sex", series.Eq, "男性"}).Nrow()
-		femaleNum := dfTgt.Filter(dataframe.F{"Sex", series.Eq, "女性"}).Nrow()
+		maleNum := dfTgt.Filter(makeF("Sex", series.Eq, "男性")).Nrow()
+		femaleNum := dfTgt.Filter(makeF("Sex", series.Eq, "女性")).Nrow()
 		unknownNum := cases - femaleNum - maleNum
-		totalMaleNum := dfLtTgt.Filter(dataframe.F{"Sex", series.Eq, "男性"}).Nrow()
-		totalFemaleNum := dfLtTgt.Filter(dataframe.F{"Sex", series.Eq, "女性"}).Nrow()
+		totalMaleNum := dfLtTgt.Filter(makeF("Sex", series.Eq, "男性")).Nrow()
+		totalFemaleNum := dfLtTgt.Filter(makeF("Sex", series.Eq, "女性")).Nrow()
 		totalUnknownNum := cases - totalFemaleNum - totalMaleNum
 
 		// 年齢
-		age10 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "10代"}).Nrow()
-		age20 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "20代"}).Nrow()
-		age30 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "30代"}).Nrow()
-		age40 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "40代"}).Nrow()
-		age50 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "50代"}).Nrow()
-		age60 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "60代"}).Nrow()
-		age70 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "70代"}).Nrow()
-		age80 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "80代"}).Nrow()
-		age90 := dfTgt.Filter(dataframe.F{"Age", series.Eq, "90代"}).Nrow()
+		age10 := dfTgt.Filter(makeF("Age", series.Eq, "10代")).Nrow()
+		age20 := dfTgt.Filter(makeF("Age", series.Eq, "20代")).Nrow()
+		age30 := dfTgt.Filter(makeF("Age", series.Eq, "30代")).Nrow()
+		age40 := dfTgt.Filter(makeF("Age", series.Eq, "40代")).Nrow()
+		age50 := dfTgt.Filter(makeF("Age", series.Eq, "50代")).Nrow()
+		age60 := dfTgt.Filter(makeF("Age", series.Eq, "60代")).Nrow()
+		age70 := dfTgt.Filter(makeF("Age", series.Eq, "70代")).Nrow()
+		age80 := dfTgt.Filter(makeF("Age", series.Eq, "80代")).Nrow()
+		age90 := dfTgt.Filter(makeF("Age", series.Eq, "90代")).Nrow()
 		ageUnknown := cases - age10 - age20 - age30 - age40 - age50 - age60 - age70 - age80 - age90
 
-		totalAge10 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "10代"}).Nrow()
-		totalAge20 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "20代"}).Nrow()
-		totalAge30 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "30代"}).Nrow()
-		totalAge40 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "40代"}).Nrow()
-		totalAge50 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "50代"}).Nrow()
-		totalAge60 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "60代"}).Nrow()
-		totalAge70 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "70代"}).Nrow()
-		totalAge80 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "80代"}).Nrow()
-		totalAge90 := dfLtTgt.Filter(dataframe.F{"Age", series.Eq, "90代"}).Nrow()
+		totalAge10 := dfLtTgt.Filter(makeF("Age", series.Eq, "10代")).Nrow()
+		totalAge20 := dfLtTgt.Filter(makeF("Age", series.Eq, "20代")).Nrow()
+		totalAge30 := dfLtTgt.Filter(makeF("Age", series.Eq, "30代")).Nrow()
+		totalAge40 := dfLtTgt.Filter(makeF("Age", series.Eq, "40代")).Nrow()
+		totalAge50 := dfLtTgt.Filter(makeF("Age", series.Eq, "50代")).Nrow()
+		totalAge60 := dfLtTgt.Filter(makeF("Age", series.Eq, "60代")).Nrow()
+		totalAge70 := dfLtTgt.Filter(makeF("Age", series.Eq, "70代")).Nrow()
+		totalAge80 := dfLtTgt.Filter(makeF("Age", series.Eq, "80代")).Nrow()
+		totalAge90 := dfLtTgt.Filter(makeF("Age", series.Eq, "90代")).Nrow()
 		totalAgeUnknown := totalCases - totalAge10 - totalAge20 - totalAge30 - totalAge40 - totalAge50 - totalAge60 - totalAge70 - totalAge80 - totalAge90
 
 		// 代入

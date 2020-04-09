@@ -174,11 +174,11 @@ func strToFloat64(str string) float64 {
 func convertSex(sexStr string) types.Sex {
 	switch sexStr {
 	case "男性":
-		return types.Sex_MALE
+		return types.SexMALE
 	case "女性":
-		return types.Sex_FEMALE
+		return types.SexFEMALE
 	default:
-		return types.Sex_MALE
+		return types.SexMALE
 	}
 }
 

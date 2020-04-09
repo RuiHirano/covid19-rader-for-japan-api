@@ -3,8 +3,8 @@ package types
 type Sex uint64
 
 const (
-	Sex_MALE   Sex = 0
-	Sex_FEMALE Sex = 1
+	SexMALE   Sex = 0
+	SexFEMALE Sex = 1
 )
 
 type Prefecture struct {
@@ -111,7 +111,7 @@ func NewStat() Stat {
 }
 
 type PrefData struct {
-	Id      int      `json:"id"`
+	ID      int      `json:"id"`
 	NameJa  string   `json:"name_ja"`
 	NameEn  string   `json:"name_en"`
 	Lat     float64  `json:"lat"`
@@ -123,7 +123,7 @@ type PrefData struct {
 }
 
 type DateData struct {
-	Id      int      `json:"id"`
+	ID      int      `json:"id"`
 	Date    int      `json:"date"`
 	Cases   int      `json:"cases"`
 	Deaths  int      `json:"deaths"`
@@ -176,13 +176,13 @@ func NewAgeData() AgeData {
 }
 
 type DatePatientsData struct {
-	Id       int        `json:"id"`
+	ID       int        `json:"id"`
 	Date     string     `json:"date"`
 	Patients []*Patient `json:"patients"`
 }
 
 type PrefPatientsData struct {
-	Id       int        `json:"id"`
+	ID       int        `json:"id"`
 	NameJa   string     `json:"name_ja"`
 	NameEn   string     `json:"name_en"`
 	Lat      float64    `json:"lat"`
@@ -191,7 +191,7 @@ type PrefPatientsData struct {
 }
 
 type DatePrefPatientsData struct {
-	Id       int        `json:"id"`
+	ID       int        `json:"id"`
 	Date     string     `json:"date"`
 	Patients []*Patient `json:"patients"`
 }
