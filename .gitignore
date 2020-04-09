@@ -1,2 +1,4 @@
+.DS_Store
+main
 # env
 secret.yaml
