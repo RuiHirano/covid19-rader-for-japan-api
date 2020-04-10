@@ -336,51 +336,49 @@ func fetchPatients() []types.Patient {
 	patients := []types.Patient{}
 	selection := doc.Find("tbody")
 	innerSelection := selection.Find("tr")
-	innerSelection.Each(func(i int, s *goquery.Selection) {
+	innerSelection.Next().Each(func(i int, s *goquery.Selection) {
 		patient := types.NewPatient()
-		if i != 0 {
-			s.Find("td").Each(func(k int, s2 *goquery.Selection) {
-				switch k {
-				case 1:
-					patient.ID = s2.Text()
-				case 2:
-					patient.Date = s2.Text()
-				case 4:
-					patient.Prefecture = s2.Text()
-				case 5:
-					patient.Residence = s2.Text()
-				case 6:
-					patient.Age = s2.Text()
-				case 7:
-					patient.Sex = s2.Text()
-				case 8:
-					patient.Attribute = s2.Text()
-				case 9:
-					patient.PrefectureNumber = s2.Text()
-				case 10:
-					patient.TravelOrContact = s2.Text()
-				case 11:
-					patient.Detail = s2.Text()
-				case 13:
-					patient.Src = s2.Text()
-				case 14:
-					patient.Onset = s2.Text()
-				case 15:
-					patient.Symptom = s2.Text()
-				case 16:
-					patient.DeathOrDischageDate = s2.Text()
-				case 17:
-					patient.Comment1 = s2.Text()
-				case 20:
-					patient.Comment2 = s2.Text()
-				case 18:
-					patient.Outcome = s2.Text()
-				case 19:
-					patient.OutcomeSrc = s2.Text()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				patient.ID = s2.Text()
+			case 2:
+				patient.Date = s2.Text()
+			case 4:
+				patient.Prefecture = s2.Text()
+			case 5:
+				patient.Residence = s2.Text()
+			case 6:
+				patient.Age = s2.Text()
+			case 7:
+				patient.Sex = s2.Text()
+			case 8:
+				patient.Attribute = s2.Text()
+			case 9:
+				patient.PrefectureNumber = s2.Text()
+			case 10:
+				patient.TravelOrContact = s2.Text()
+			case 11:
+				patient.Detail = s2.Text()
+			case 13:
+				patient.Src = s2.Text()
+			case 14:
+				patient.Onset = s2.Text()
+			case 15:
+				patient.Symptom = s2.Text()
+			case 16:
+				patient.DeathOrDischageDate = s2.Text()
+			case 17:
+				patient.Comment1 = s2.Text()
+			case 20:
+				patient.Comment2 = s2.Text()
+			case 18:
+				patient.Outcome = s2.Text()
+			case 19:
+				patient.OutcomeSrc = s2.Text()
 
-				}
-			})
-		}
+			}
+		})
 		patients = append(patients, patient)
 	})
 	return patients
