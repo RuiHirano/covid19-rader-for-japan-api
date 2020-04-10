@@ -70,9 +70,21 @@ func fetchData() {
 	news := fetchNews()
 	handler.APIData.News = news
 
+	// detailByRegion data
+	detailByRegion := fetchDetailByRegion()
+	handler.APIData.DetailByRegion = detailByRegion
+
 	// stats data
 	stats := calcStats(patients)
 	handler.APIData.Stats = stats
+
+	// dailySexByPref data
+	//dailySexByPref := calcDailySexByPref(patients)
+	//handler.APIData.DailySexByPref = dailySexByPref
+
+	// dailyAgeByPref data
+	//dailyAgeByPref := calcDailyAgeByPref(patients)
+	//handler.APIData.DailyAgeByPref = dailyAgeByPref
 }
 
 func makeF(colname string, comparator series.Comparator, comparando interface{}) dataframe.F {
@@ -85,7 +97,37 @@ func makeF(colname string, comparator series.Comparator, comparando interface{})
 
 func calcStats(patients []types.Patient) []types.Stat {
 	result := []types.Stat{}
-	rawStats := fetchDetailByRegion()
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv")
+	if err != nil {
+		panic(err)
+	}
+	rawStats := []types.Stat{}
+	selection := doc.Find("tbody")
+	innerSelection := selection.Find("tr")
+	innerSelection.Each(func(i int, s *goquery.Selection) {
+		stat := types.NewStat()
+		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
+			switch k {
+			case 1:
+				stat.Date = s2.Text()
+			case 2:
+				stat.Prefecture = s2.Text()
+			case 3:
+				totalCases, _ := strconv.Atoi(s2.Text())
+				stat.TotalCases = totalCases
+			case 4:
+				totalHospitals, _ := strconv.Atoi(s2.Text())
+				stat.TotalHospitals = totalHospitals
+			case 5:
+				totalDischarges, _ := strconv.Atoi(s2.Text())
+				stat.TotalDischarges = totalDischarges
+			case 6:
+				totalDeaths, _ := strconv.Atoi(s2.Text())
+				stat.TotalDeaths = totalDeaths
+			}
+		})
+		rawStats = append(rawStats, stat)
+	})
 	//dfStats := dataframe.LoadStructs(rawStats)
 	dfPatients := dataframe.LoadStructs(patients)
 
@@ -111,13 +153,6 @@ func calcStats(patients []types.Patient) []types.Stat {
 		).Filter(
 			makeF("Date", "<=", date),
 		)
-
-		// その日以前全てのstatsデータ
-		/*dfLtStats := dfStats.Filter(
-			makeF("Prefecture", series.Eq, pref),
-		).Filter(
-			makeF("Date", "<=", stat.Date),
-		)*/
 
 		// その日の発生件数と累計発生件数
 		cases := dfTgt.Nrow()
@@ -217,6 +252,36 @@ func calcStats(patients []types.Patient) []types.Stat {
 	result = rawStats
 	return result
 }
+
+/*func calcDailySexByPref(patients []types.Patient) []types.Stat {
+	result := []types.DateSexByPref{}
+	//dfStats := dataframe.LoadStructs(rawStats)
+	dfPatients := dataframe.LoadStructs(patients)
+
+	for i, stat := range rawStats {
+		dateSexByPref := types.DateSexByPref{}
+		date := fmt.Sprintf("%s/%s/%s", string([]rune(stat.Date)[:4]), string([]rune(stat.Date)[4:6]), string([]rune(stat.Date)[6:8]))
+		pref := stat.Prefecture
+		// その日のpatientsデータ
+		dfTgt := dfPatients.Filter(
+			makeF("Prefecture", series.Eq, pref),
+		).Filter(
+			makeF("Date", series.Eq, date),
+		)
+
+		// その日の発生件数
+		cases := dfTgt.Nrow()
+
+		// 性別
+		maleNum := dfTgt.Filter(makeF("Sex", series.Eq, "男性")).Nrow()
+		femaleNum := dfTgt.Filter(makeF("Sex", series.Eq, "女性")).Nrow()
+		unknownNum := cases - femaleNum - maleNum
+
+	}
+
+	result = rawStats
+	return result
+}*/
 
 func calcSexData(patients []*types.Patient) *types.SexData {
 	sexData := &types.SexData{Female: 0, Male: 0, Unknown: 0}
@@ -319,40 +384,40 @@ func fetchPatients() []types.Patient {
 	return patients
 }
 
-func fetchDetailByRegion() []types.Stat {
+func fetchDetailByRegion() []types.RegionDetail {
 	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv")
 	if err != nil {
 		panic(err)
 	}
-	stats := []types.Stat{}
+	regionDetails := []types.RegionDetail{}
 	selection := doc.Find("tbody")
 	innerSelection := selection.Find("tr")
 	innerSelection.Each(func(i int, s *goquery.Selection) {
-		stat := types.NewStat()
+		regionDetail := types.NewRegionDetail()
 		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
 			switch k {
 			case 1:
-				stat.Date = s2.Text()
+				regionDetail.Date = s2.Text()
 			case 2:
-				stat.Prefecture = s2.Text()
+				regionDetail.Prefecture = s2.Text()
 			case 3:
-				totalCases, _ := strconv.Atoi(s2.Text())
-				stat.TotalCases = totalCases
+				cases, _ := strconv.Atoi(s2.Text())
+				regionDetail.Cases = cases
 			case 4:
-				totalHospitals, _ := strconv.Atoi(s2.Text())
-				stat.TotalHospitals = totalHospitals
+				hospitals, _ := strconv.Atoi(s2.Text())
+				regionDetail.Hospitals = hospitals
 			case 5:
-				totalDischarges, _ := strconv.Atoi(s2.Text())
-				stat.TotalDischarges = totalDischarges
+				discharges, _ := strconv.Atoi(s2.Text())
+				regionDetail.Discharges = discharges
 			case 6:
-				totalDeaths, _ := strconv.Atoi(s2.Text())
-				stat.TotalDeaths = totalDeaths
+				deaths, _ := strconv.Atoi(s2.Text())
+				regionDetail.Deaths = deaths
 			}
 		})
-		stats = append(stats, stat)
+		regionDetails = append(regionDetails, regionDetail)
 	})
 
-	return stats
+	return regionDetails
 }
 
 func fetchPrefectures() []types.Prefecture {
@@ -846,14 +911,17 @@ func main() {
 	e.Use(middleware.CORS())
 
 	e.GET("/api/v1/stats", handler.SendStats())                                // 統計データ
-	e.GET("/api/v1/patients", handler.SendPatients())                          // 統計データ
-	e.GET("/api/v1/prefectures", handler.SendPrefectures())                    // 統計データ
+	e.GET("/api/v1/patients", handler.SendPatients())                          // 罹患者データ
+	e.GET("/api/v1/prefectures", handler.SendPrefectures())                    // 都道府県データ
+	e.GET("/api/v1/detail-by-region", handler.SendDetailByRegion())            // 地域ごとの詳細データ
 	e.GET("/api/v1/daily/report", handler.SendDailyReport())                   // 日ごとの統計データ
 	e.GET("/api/v1/daily/positive-by-pref", handler.SendDailyPositiveByPref()) // 日ごと、都道府県ごとの感染者データ
-	e.GET("/api/v1/daily/death-by-pref", handler.SendDailyDeathByPref())       // 日ごと、都道府県ごとの感染者データ
-	e.GET("/api/v1/daily/callcenter", handler.SendDailyCallcenter())           // 日ごと、都道府県ごとの感染者データ
-	e.GET("/api/v1/daily/ship", handler.SendDailyShip())                       // 日ごと、都道府県ごとの感染者データ
-	e.GET("/api/v1/news", handler.SendNews())                                  // 日ごと、都道府県ごとの感染者データ
+	e.GET("/api/v1/daily/death-by-pref", handler.SendDailyDeathByPref())       // 日ごと、都道府県ごとの死亡者データ
+	e.GET("/api/v1/daily/callcenter", handler.SendDailyCallcenter())           // 日ごと、コールセンターの感染者データ
+	e.GET("/api/v1/daily/ship", handler.SendDailyShip())                       // 日ごと、クルーズ船の感染者データ
+	//e.GET("/api/v1/daily/sex-by-pref", handler.SendDailySexByPref())           // 日ごと、クルーズ船の感染者データ
+	//e.GET("/api/v1/daily/age-by-pref", handler.SendDailyAgeByPref())           // 日ごと、クルーズ船の感染者データ
+	e.GET("/api/v1/news", handler.SendNews()) // 日ごと、都道府県ごとの感染者データ
 
 	port := os.Getenv("PORT")
 	if port == "" {

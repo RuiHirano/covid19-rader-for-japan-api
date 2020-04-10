@@ -301,6 +301,75 @@ func NewDateShip() DateShip {
 	return s
 }
 
+type DateSexByPref struct {
+	Date    string `json:"date"`
+	Female  string `json:"Female"`
+	Male    string `json:"Male"`
+	Unknown string `json:"unknown"` // 累計
+}
+
+func NewDateSexByPref() DateSexByPref {
+	s := DateSexByPref{
+		Date:    "",
+		Female:  "",
+		Male:    "",
+		Unknown: "",
+	}
+	return s
+}
+
+type RegionDetail struct {
+	Date       string `json:"date"`
+	Prefecture string `json:"prefecture"`
+	Cases      int    `json:"cases"`
+	Hospitals  int    `json:"hospital"`
+	Discharges int    `json:"discharge"`
+	Deaths     int    `json:"deaths"`
+}
+
+func NewRegionDetail() RegionDetail {
+	s := RegionDetail{
+		Date:       "",
+		Prefecture: "",
+		Cases:      0,
+		Hospitals:  0,
+		Discharges: 0,
+		Deaths:     0,
+	}
+	return s
+}
+
+type DateAgeByPref struct {
+	Date    string `json:"date"`
+	Age10   string `json:"age_10"`
+	Age20   string `json:"age_20"`
+	Age30   string `json:"age_30"`
+	Age40   string `json:"age_40"`
+	Age50   string `json:"age_50"`
+	Age60   string `json:"age_60"`
+	Age70   string `json:"age_70"`
+	Age80   string `json:"age_80"`
+	Age90   string `json:"age_90"`
+	Unknown string `json:"age_unknown"`
+}
+
+func NewDateAgeByPref() DateAgeByPref {
+	s := DateAgeByPref{
+		Date:    "",
+		Age10:   "",
+		Age20:   "",
+		Age30:   "",
+		Age40:   "",
+		Age50:   "",
+		Age60:   "",
+		Age70:   "",
+		Age80:   "",
+		Age90:   "",
+		Unknown: "",
+	}
+	return s
+}
+
 type DateCallcenter struct {
 	Date string `json:"date"`
 	Call string `json:"call"`

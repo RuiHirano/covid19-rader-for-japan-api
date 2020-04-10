@@ -23,9 +23,12 @@ type Data struct {
 	DailyReport         []types.DateReport
 	DailyPositiveByPref []types.DatePositiveByPref
 	DailyDeathByPref    []types.DateDeathByPref
+	DailySexByPref      []types.DateSexByPref
+	DailyAgeByPref      []types.DateAgeByPref
 	DailyCallcenter     []types.DateCallcenter
 	DailyShip           []types.DateShip
 	News                []types.News
+	DetailByRegion      []types.RegionDetail
 }
 
 func NewData() *Data {
@@ -36,9 +39,12 @@ func NewData() *Data {
 		DailyReport:         []types.DateReport{},
 		DailyPositiveByPref: []types.DatePositiveByPref{},
 		DailyDeathByPref:    []types.DateDeathByPref{},
+		DailySexByPref:      []types.DateSexByPref{},
+		DailyAgeByPref:      []types.DateAgeByPref{},
 		DailyCallcenter:     []types.DateCallcenter{},
 		DailyShip:           []types.DateShip{},
 		News:                []types.News{},
+		DetailByRegion:      []types.RegionDetail{},
 	}
 	return d
 }
@@ -99,6 +105,22 @@ func SendDailyDeathByPref() echo.HandlerFunc {
 	}
 }
 
+func SendDailySexByPref() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		dailySexByPref := APIData.DailySexByPref
+		dailySexByPrefjson, _ := json.Marshal(dailySexByPref)
+		return c.String(http.StatusOK, string(dailySexByPrefjson))
+	}
+}
+
+func SendDailyAgeByPref() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		dailyAgeByPref := APIData.DailyAgeByPref
+		dailyAgeByPrefjson, _ := json.Marshal(dailyAgeByPref)
+		return c.String(http.StatusOK, string(dailyAgeByPrefjson))
+	}
+}
+
 func SendDailyCallcenter() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		dailyCallcenter := APIData.DailyCallcenter
@@ -120,5 +142,13 @@ func SendNews() echo.HandlerFunc {
 		news := APIData.News
 		newsjson, _ := json.Marshal(news)
 		return c.String(http.StatusOK, string(newsjson))
+	}
+}
+
+func SendDetailByRegion() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		detailByRegion := APIData.DetailByRegion
+		detailByRegionjson, _ := json.Marshal(detailByRegion)
+		return c.String(http.StatusOK, string(detailByRegionjson))
 	}
 }
