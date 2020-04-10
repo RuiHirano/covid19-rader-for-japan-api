@@ -438,7 +438,7 @@ type DateDeathByPref struct {
 	Miyazaki          string `json:"miyazaki"`
 	Kagoshima         string `json:"kagoshima"`
 	Okinawa           string `json:"okinawa"`
-	Charter           string `json:"Charter"`
+	Charter           string `json:"charter"`
 	QuarantineOfficer string `json:"quarantine_officer"`
 	Cruise            string `json:"cruise"`
 }
@@ -549,7 +549,7 @@ type DatePositiveByPref struct {
 	Miyazaki          string `json:"miyazaki"`
 	Kagoshima         string `json:"kagoshima"`
 	Okinawa           string `json:"okinawa"`
-	Charter           string `json:"Charter"`
+	Charter           string `json:"charter"`
 	QuarantineOfficer string `json:"quarantine_officer"`
 	Cruise            string `json:"cruise"`
 }
