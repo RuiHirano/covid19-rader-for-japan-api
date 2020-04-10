@@ -8,6 +8,7 @@ import (
 	//"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	//"io/ioutil"
 
@@ -339,43 +340,49 @@ func fetchPatients() []types.Patient {
 	innerSelection.Next().Each(func(i int, s *goquery.Selection) {
 		patient := types.NewPatient()
 		s.Find("td").Each(func(k int, s2 *goquery.Selection) {
-			switch k {
-			case 1:
-				patient.ID = s2.Text()
-			case 2:
-				patient.Date = s2.Text()
-			case 4:
-				patient.Prefecture = s2.Text()
-			case 5:
-				patient.Residence = s2.Text()
-			case 6:
-				patient.Age = s2.Text()
-			case 7:
-				patient.Sex = s2.Text()
-			case 8:
-				patient.Attribute = s2.Text()
-			case 9:
-				patient.PrefectureNumber = s2.Text()
-			case 10:
-				patient.TravelOrContact = s2.Text()
-			case 11:
-				patient.Detail = s2.Text()
-			case 13:
-				patient.Src = s2.Text()
-			case 14:
-				patient.Onset = s2.Text()
-			case 15:
-				patient.Symptom = s2.Text()
-			case 16:
-				patient.DeathOrDischageDate = s2.Text()
-			case 17:
-				patient.Comment1 = s2.Text()
-			case 20:
-				patient.Comment2 = s2.Text()
-			case 18:
-				patient.Outcome = s2.Text()
-			case 19:
-				patient.OutcomeSrc = s2.Text()
+			if k == 1 {
+				row := s2.Text()
+				for j, elem := range strings.Split(row, ",") {
+					switch j {
+					case 11:
+						patient.ID = elem
+					case 1:
+						patient.Date = elem
+					case 3:
+						patient.Prefecture = elem
+					case 4:
+						patient.Residence = elem
+					case 5:
+						patient.Age = elem
+					case 6:
+						patient.Sex = elem
+					case 7:
+						patient.Attribute = elem
+					case 8:
+						patient.PrefectureNumber = elem
+					case 9:
+						patient.TravelOrContact = elem
+					case 10:
+						patient.Detail = elem
+					case 2:
+						patient.Src = elem
+					case 13:
+						patient.Onset = elem
+					case 14:
+						patient.Symptom = elem
+					case 15:
+						patient.DeathOrDischageDate = elem
+					case 16:
+						patient.Comment1 = elem
+					case 19:
+						patient.Comment2 = elem
+					case 17:
+						patient.Outcome = elem
+					case 18:
+						patient.OutcomeSrc = elem
+
+					}
+				}
 
 			}
 		})
