@@ -128,32 +128,32 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v1/prefectures
 
 **Dataset**
 
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/prefectures.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/prefectures.csv)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv)
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/prefectures](https://covid19-rader-for-japan.appspot.com/api/v1/prefectures)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/detail-by-region](https://covid19-rader-for-japan.appspot.com/api/v1/detail-by-region)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/prefectures
+$ curl https://covid19-rader-for-japan.appspot.com/api/v1/detail-by-region
 ```
 
 **Response:**
 ```json
 [
-  {
-    "id": 1,
-    "name_ja": "北海道",
-    "name_en": "Hokkaido",
-    "regions": "0", 
-    "lat": "43.46722222",
-    "lng": "142.8277778",
-  },
-  {
-    "id": 2,
-    "name_ja": "青森",
-    "name_en": "Aomori",
-    "regions": "1", 
-    "lat": "40.78027778",
-    "lng": "140.83194440000003",
-  },
+    {
+        "date":"20200319",
+        "prefecture":"北海道",
+        "cases":153,
+        "hospital":77,
+        "discharge":69,
+        "deaths":7
+    },
+    {
+        "date":"20200319",
+        "prefecture":"愛知県",
+        "cases":123,
+        "hospital":106,
+        "discharge":3,
+        "deaths":14
+    },
   ...
 ]
 ```
