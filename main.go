@@ -98,7 +98,7 @@ func makeF(colname string, comparator series.Comparator, comparando interface{})
 
 func calcStats(patients []types.Patient) []types.Stat {
 	result := []types.Stat{}
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/detailByRegion.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -328,12 +328,86 @@ func calcAgeData(patients []*types.Patient) *types.AgeData {
 	return ageData
 }
 
+func Chunks(l []string, n int) chan []string {
+	ch := make(chan []string)
+
+	go func() {
+		for i := 0; i < len(l); i += n {
+			from_idx := i
+			to_idx := i + n
+			if to_idx > len(l) {
+				to_idx = len(l)
+			}
+			ch <- l[from_idx:to_idx]
+		}
+		close(ch)
+	}()
+	return ch
+}
+
 func fetchPatients() []types.Patient {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/positiveDetail.csv")
+	doc, err := goquery.NewDocument("https://raw.githubusercontent.com/swsoyee/2019-ncov-japan/master/50_Data/positiveDetail.csv")
 	if err != nil {
 		panic(err)
 	}
 	//fmt.Println(" doc", doc)
+	patients := []types.Patient{}
+	selection2 := doc.Find("body")
+	//fmt.Printf("pre: ", strings.Split(selection2.Text(), ","))
+	rows := strings.Split(selection2.Text(), "\n")
+	for i, row := range rows {
+		if i != 0 {
+			patient := types.NewPatient()
+			elms := strings.Split(row, ",")
+			for j, elm := range elms {
+				switch j {
+				case 11:
+					patient.ID = elm
+				case 1:
+					patient.Date = elm
+				case 3:
+					patient.Prefecture = elm
+				case 4:
+					patient.Residence = elm
+				case 5:
+					patient.Age = elm
+				case 6:
+					patient.Sex = elm
+				case 7:
+					patient.Attribute = elm
+				case 8:
+					patient.PrefectureNumber = elm
+				case 9:
+					patient.TravelOrContact = elm
+				case 10:
+					patient.Detail = elm
+				case 2:
+					patient.Src = elm
+				case 13:
+					patient.Onset = elm
+				case 14:
+					patient.Symptom = elm
+				case 15:
+					patient.DeathOrDischageDate = elm
+				case 16:
+					patient.Comment1 = elm
+				case 19:
+					patient.Comment2 = elm
+				case 17:
+					patient.Outcome = elm
+				case 18:
+					patient.OutcomeSrc = elm
+				}
+				patients = append(patients, patient)
+			}
+		}
+	}
+	//elms2 := elms[22 : len(elms)-1]
+	//for l := range Chunks(elms2, 18) {
+	//	fmt.Println(l)
+	//}
+	/*fmt.Println("first", elms[1], len(elms))
+
 	patients := []types.Patient{}
 	selection := doc.Find("tbody")
 	innerSelection := selection.Find("tr")
@@ -387,12 +461,12 @@ func fetchPatients() []types.Patient {
 			}
 		})
 		patients = append(patients, patient)
-	})
+	})*/
 	return patients
 }
 
 func fetchDetailByRegion() []types.RegionDetail {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/detailByRegion.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -428,7 +502,7 @@ func fetchDetailByRegion() []types.RegionDetail {
 }
 
 func fetchPrefectures() []types.Prefecture {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/prefectures.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/prefectures.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -459,7 +533,7 @@ func fetchPrefectures() []types.Prefecture {
 }
 
 func fetchDailyReport() []types.DateReport {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/resultDailyReport.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/resultDailyReport.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -574,7 +648,7 @@ func fetchDailyReport() []types.DateReport {
 }
 
 func fetchDailyPositiveByPref() []types.DatePositiveByPref {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/byDate.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/byDate.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -695,7 +769,7 @@ func fetchDailyPositiveByPref() []types.DatePositiveByPref {
 }
 
 func fetchDailyDeathByPref() []types.DateDeathByPref {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/death.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/death.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -816,7 +890,7 @@ func fetchDailyDeathByPref() []types.DateDeathByPref {
 }
 
 func fetchDailyCallcenter() []types.DateCallcenter {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/callCenter.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/callCenter.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -845,7 +919,7 @@ func fetchDailyCallcenter() []types.DateCallcenter {
 }
 
 func fetchDailyShip() []types.DateShip {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/shipDailyReport.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/shipDailyReport.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -880,7 +954,7 @@ func fetchDailyShip() []types.DateShip {
 }
 
 func fetchNews() []types.News {
-	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/mhlw_houdou.csv")
+	doc, err := goquery.NewDocument("https://github.com/swsoyee/2019-ncov-japan/tree/master/50_Data/mhlw_houdou.csv")
 	if err != nil {
 		panic(err)
 	}
