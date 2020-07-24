@@ -154,6 +154,35 @@ func NewAgeData() AgeData {
 	return a
 }
 
+type DateSummary struct {
+	Date       string `csv:"日付"`
+	Prefecture string `csv:"都道府県名"`
+	Positives  string `csv:"陽性者"`
+	Pcrs       string `csv:"検査人数"`
+	Hospitals  string `csv:"入院中"`
+	Severes    string `csv:"重症者"`
+	Discharges string `csv:"退院者"`
+	Deaths     string `csv:"死亡者"`
+	Checking   string `csv:"確認中"`
+	Class      string `csv:"分類"`
+}
+
+type DateWorldSummary struct {
+	Date            string `csv:"date"`
+	Update          string `csv:"update"`
+	Cases           string `csv:"cases"`
+	NewCases        string `csv:"new_cases"`
+	Deaths          string `csv:"deaths"`
+	Country         string `csv:"country"`
+	LastUpdate      string `csv:"last_update"`
+	Population      string `csv:"population"`
+	CasesPer100k    string `csv:"casesPer100k"`
+	NewTests        string `csv:"new_tests"`
+	TestsCumulative string `csv:"tests_cumulative"`
+	TestsPer100k    string `csv:"testsPer100k"`
+	PositiveRate    string `csv:"positiveRate"`
+}
+
 type DateReport struct {
 	Date                 string `json: "date"`
 	PcrD                 string `json: "pcr_d"`
@@ -260,10 +289,12 @@ func NewDateReport() DateReport {
 }
 
 type News struct {
-	ID    string `json:"id"`
-	Date  string `json:"date"`
-	Title string `json:"title"`
-	Link  string `json:"link`
+	ID         string `json:"id" csv:"id"`
+	Date       string `json:"date" csv:"date"`
+	Title      string `json:"title" csv:"title"`
+	Link       string `json:"link" csv:"link"`
+	Prefecture string `json:"pre" csv:"pre"`
+	Resident   string `json:"resident" csv:"resident"`
 }
 
 func NewNews() News {
@@ -371,242 +402,135 @@ func NewDateAgeByPref() DateAgeByPref {
 }
 
 type DateCallcenter struct {
-	Date string `json:"date"`
-	Call string `json:"call"`
-	Fax  string `json:"fax"`
-	Mail string `json:"mail"`
-	Line string `json:"line"`
+	Date string `csv:"date"`
+	Call string `csv:"call"`
+	Fax  string `csv:"fax"`
+	Mail string `csv:"mail"`
+	Line string `csv:"line"`
 }
 
-func NewDateCallcenter() DateCallcenter {
-	s := DateCallcenter{
-		Date: "",
-		Call: "",
-		Fax:  "",
-		Mail: "",
-		Line: "",
-	}
-	return s
-}
-
+// Finish
 type DateDeathByPref struct {
-	Date              string `json:"date"`
-	Hokkaido          string `json:"hokkaido"`
-	Aomori            string `json:"aomori"`
-	Iwate             string `json:"iwate"`
-	Miyagi            string `json:"miyagi"`
-	Akita             string `json:"akita"`
-	Yamagata          string `json:"yamagata"`
-	Fukushima         string `json:"fukushima"`
-	Ibaraki           string `json:"ibaraki"`
-	Tochigi           string `json:"tochigi"`
-	Gunma             string `json:"gunma"`
-	Saitama           string `json:"saitama"`
-	Chiba             string `json:"chiba"`
-	Tokyo             string `json:"tokyo"`
-	Kanagawa          string `json:"kanagawa"`
-	Niigata           string `json:"niigata"`
-	Toyama            string `json:"toyama"`
-	Ishikawa          string `json:"ishikawa"`
-	Fukui             string `json:"fukui"`
-	Yamanashi         string `json:"yamanashi"`
-	Nagano            string `json:"nagano"`
-	Gifu              string `json:"gifu"`
-	Shizuoka          string `json:"shizuoka"`
-	Aichi             string `json:"aichi"`
-	Mie               string `json:"mie"`
-	Shiga             string `json:"shiga"`
-	Kyoto             string `json:"kyoto"`
-	Osaka             string `json:"osaka"`
-	Hyogo             string `json:"hyogo"`
-	Nara              string `json:"nara"`
-	Wakayama          string `json:"wakayama"`
-	Tottori           string `json:"tottori"`
-	Shimane           string `json:"shimane"`
-	Okayama           string `json:"okayama"`
-	Hiroshima         string `json:"hiroshima"`
-	Yamaguchi         string `json:"yamaguchi"`
-	Tokushima         string `json:"tokushima"`
-	Kagawa            string `json:"kagawa"`
-	Ehime             string `json:"ehime"`
-	Kochi             string `json:"kochi"`
-	Fukuoka           string `json:"fukuoka"`
-	Saga              string `json:"saga"`
-	Nagasaki          string `json:"nagasaki"`
-	Kumamoto          string `json:"kumamoto"`
-	Oita              string `json:"oita"`
-	Miyazaki          string `json:"miyazaki"`
-	Kagoshima         string `json:"kagoshima"`
-	Okinawa           string `json:"okinawa"`
-	Charter           string `json:"charter"`
-	QuarantineOfficer string `json:"quarantine_officer"`
-	Cruise            string `json:"cruise"`
-}
-
-func NewDateDeathByPref() DateDeathByPref {
-	s := DateDeathByPref{
-		Date:              "",
-		Hokkaido:          "",
-		Aomori:            "",
-		Iwate:             "",
-		Miyagi:            "",
-		Akita:             "",
-		Yamagata:          "",
-		Fukushima:         "",
-		Ibaraki:           "",
-		Tochigi:           "",
-		Gunma:             "",
-		Saitama:           "",
-		Chiba:             "",
-		Tokyo:             "",
-		Kanagawa:          "",
-		Niigata:           "",
-		Toyama:            "",
-		Ishikawa:          "",
-		Fukui:             "",
-		Yamanashi:         "",
-		Nagano:            "",
-		Gifu:              "",
-		Shizuoka:          "",
-		Aichi:             "",
-		Mie:               "",
-		Shiga:             "",
-		Kyoto:             "",
-		Osaka:             "",
-		Hyogo:             "",
-		Nara:              "",
-		Wakayama:          "",
-		Tottori:           "",
-		Shimane:           "",
-		Okayama:           "",
-		Hiroshima:         "",
-		Yamaguchi:         "",
-		Tokushima:         "",
-		Kagawa:            "",
-		Ehime:             "",
-		Kochi:             "",
-		Fukuoka:           "",
-		Saga:              "",
-		Nagasaki:          "",
-		Kumamoto:          "",
-		Oita:              "",
-		Miyazaki:          "",
-		Kagoshima:         "",
-		Okinawa:           "",
-		Charter:           "",
-		QuarantineOfficer: "",
-		Cruise:            "",
-	}
-	return s
+	Date              string `csv:"date"`
+	Hokkaido          string `csv:"北海道"`
+	Aomori            string `csv:"青森"`
+	Iwate             string `csv:"岩手"`
+	Miyagi            string `csv:"宮城"`
+	Akita             string `csv:"秋田"`
+	Yamagata          string `csv:"山形"`
+	Fukushima         string `csv:"福島"`
+	Ibaraki           string `csv:"茨城"`
+	Tochigi           string `csv:"栃木"`
+	Gunma             string `csv:"群馬"`
+	Saitama           string `csv:"埼玉"`
+	Chiba             string `csv:"千葉"`
+	Tokyo             string `csv:"東京"`
+	Kanagawa          string `csv:"神奈川"`
+	Niigata           string `csv:"新潟"`
+	Toyama            string `csv:"富山"`
+	Ishikawa          string `csv:"石川"`
+	Fukui             string `csv:"福井"`
+	Yamanashi         string `csv:"山梨"`
+	Nagano            string `csv:"長野"`
+	Gifu              string `csv:"岐阜"`
+	Shizuoka          string `csv:"静岡"`
+	Aichi             string `csv:"愛知"`
+	Mie               string `csv:"三重"`
+	Shiga             string `csv:"滋賀"`
+	Kyoto             string `csv:"京都"`
+	Osaka             string `csv:"大阪"`
+	Hyogo             string `csv:"兵庫"`
+	Nara              string `csv:"奈良"`
+	Wakayama          string `csv:"和歌山"`
+	Tottori           string `csv:"鳥取"`
+	Shimane           string `csv:"島根"`
+	Okayama           string `csv:"岡山"`
+	Hiroshima         string `csv:"広島"`
+	Yamaguchi         string `csv:"山口"`
+	Tokushima         string `csv:"徳島"`
+	Kagawa            string `csv:"香川"`
+	Ehime             string `csv:"愛媛"`
+	Kochi             string `csv:"高知"`
+	Fukuoka           string `csv:"福岡"`
+	Saga              string `csv:"佐賀"`
+	Nagasaki          string `csv:"長崎"`
+	Kumamoto          string `csv:"熊本"`
+	Oita              string `csv:"大分"`
+	Miyazaki          string `csv:"宮崎"`
+	Kagoshima         string `csv:"鹿児島"`
+	Okinawa           string `csv:"沖縄"`
+	Charter           string `csv:"チャーター便"`
+	QuarantineOfficer string `csv:"検疫職員"`
+	Cruise            string `csv:"クルーズ船"`
 }
 
 type DatePositiveByPref struct {
-	Date              string `json:"date"`
-	Hokkaido          string `json:"hokkaido"`
-	Aomori            string `json:"aomori"`
-	Iwate             string `json:"iwate"`
-	Miyagi            string `json:"miyagi"`
-	Akita             string `json:"akita"`
-	Yamagata          string `json:"yamagata"`
-	Fukushima         string `json:"fukushima"`
-	Ibaraki           string `json:"ibaraki"`
-	Tochigi           string `json:"tochigi"`
-	Gunma             string `json:"gunma"`
-	Saitama           string `json:"saitama"`
-	Chiba             string `json:"chiba"`
-	Tokyo             string `json:"tokyo"`
-	Kanagawa          string `json:"kanagawa"`
-	Niigata           string `json:"niigata"`
-	Toyama            string `json:"toyama"`
-	Ishikawa          string `json:"ishikawa"`
-	Fukui             string `json:"fukui"`
-	Yamanashi         string `json:"yamanashi"`
-	Nagano            string `json:"nagano"`
-	Gifu              string `json:"gifu"`
-	Shizuoka          string `json:"shizuoka"`
-	Aichi             string `json:"aichi"`
-	Mie               string `json:"mie"`
-	Shiga             string `json:"shiga"`
-	Kyoto             string `json:"kyoto"`
-	Osaka             string `json:"osaka"`
-	Hyogo             string `json:"hyogo"`
-	Nara              string `json:"nara"`
-	Wakayama          string `json:"wakayama"`
-	Tottori           string `json:"tottori"`
-	Shimane           string `json:"shimane"`
-	Okayama           string `json:"okayama"`
-	Hiroshima         string `json:"hiroshima"`
-	Yamaguchi         string `json:"yamaguchi"`
-	Tokushima         string `json:"tokushima"`
-	Kagawa            string `json:"kagawa"`
-	Ehime             string `json:"ehime"`
-	Kochi             string `json:"kochi"`
-	Fukuoka           string `json:"fukuoka"`
-	Saga              string `json:"saga"`
-	Nagasaki          string `json:"nagasaki"`
-	Kumamoto          string `json:"kumamoto"`
-	Oita              string `json:"oita"`
-	Miyazaki          string `json:"miyazaki"`
-	Kagoshima         string `json:"kagoshima"`
-	Okinawa           string `json:"okinawa"`
-	Charter           string `json:"charter"`
-	QuarantineOfficer string `json:"quarantine_officer"`
-	Cruise            string `json:"cruise"`
+	Date              string `csv:"date"`
+	Hokkaido          string `csv:"北海道"`
+	Aomori            string `csv:"青森"`
+	Iwate             string `csv:"岩手"`
+	Miyagi            string `csv:"宮城"`
+	Akita             string `csv:"秋田"`
+	Yamagata          string `csv:"山形"`
+	Fukushima         string `csv:"福島"`
+	Ibaraki           string `csv:"茨城"`
+	Tochigi           string `csv:"栃木"`
+	Gunma             string `csv:"群馬"`
+	Saitama           string `csv:"埼玉"`
+	Chiba             string `csv:"千葉"`
+	Tokyo             string `csv:"東京"`
+	Kanagawa          string `csv:"神奈川"`
+	Niigata           string `csv:"新潟"`
+	Toyama            string `csv:"富山"`
+	Ishikawa          string `csv:"石川"`
+	Fukui             string `csv:"福井"`
+	Yamanashi         string `csv:"山梨"`
+	Nagano            string `csv:"長野"`
+	Gifu              string `csv:"岐阜"`
+	Shizuoka          string `csv:"静岡"`
+	Aichi             string `csv:"愛知"`
+	Mie               string `csv:"三重"`
+	Shiga             string `csv:"滋賀"`
+	Kyoto             string `csv:"京都"`
+	Osaka             string `csv:"大阪"`
+	Hyogo             string `csv:"兵庫"`
+	Nara              string `csv:"奈良"`
+	Wakayama          string `csv:"和歌山"`
+	Tottori           string `csv:"鳥取"`
+	Shimane           string `csv:"島根"`
+	Okayama           string `csv:"岡山"`
+	Hiroshima         string `csv:"広島"`
+	Yamaguchi         string `csv:"山口"`
+	Tokushima         string `csv:"徳島"`
+	Kagawa            string `csv:"香川"`
+	Ehime             string `csv:"愛媛"`
+	Kochi             string `csv:"高知"`
+	Fukuoka           string `csv:"福岡"`
+	Saga              string `csv:"佐賀"`
+	Nagasaki          string `csv:"長崎"`
+	Kumamoto          string `csv:"熊本"`
+	Oita              string `csv:"大分"`
+	Miyazaki          string `csv:"宮崎"`
+	Kagoshima         string `csv:"鹿児島"`
+	Okinawa           string `csv:"沖縄"`
+	Charter           string `csv:"チャーター便"`
+	QuarantineOfficer string `csv:"検疫職員"`
+	Cruise            string `csv:"クルーズ船"`
 }
 
-func NewDatePositiveByPref() DatePositiveByPref {
-	s := DatePositiveByPref{
-		Date:              "",
-		Hokkaido:          "",
-		Aomori:            "",
-		Iwate:             "",
-		Miyagi:            "",
-		Akita:             "",
-		Yamagata:          "",
-		Fukushima:         "",
-		Ibaraki:           "",
-		Tochigi:           "",
-		Gunma:             "",
-		Saitama:           "",
-		Chiba:             "",
-		Tokyo:             "",
-		Kanagawa:          "",
-		Niigata:           "",
-		Toyama:            "",
-		Ishikawa:          "",
-		Fukui:             "",
-		Yamanashi:         "",
-		Nagano:            "",
-		Gifu:              "",
-		Shizuoka:          "",
-		Aichi:             "",
-		Mie:               "",
-		Shiga:             "",
-		Kyoto:             "",
-		Osaka:             "",
-		Hyogo:             "",
-		Nara:              "",
-		Wakayama:          "",
-		Tottori:           "",
-		Shimane:           "",
-		Okayama:           "",
-		Hiroshima:         "",
-		Yamaguchi:         "",
-		Tokushima:         "",
-		Kagawa:            "",
-		Ehime:             "",
-		Kochi:             "",
-		Fukuoka:           "",
-		Saga:              "",
-		Nagasaki:          "",
-		Kumamoto:          "",
-		Oita:              "",
-		Miyazaki:          "",
-		Kagoshima:         "",
-		Okinawa:           "",
-		Charter:           "",
-		QuarantineOfficer: "",
-		Cruise:            "",
-	}
-	return s
+type DateDetailByPref struct {
+	Date                     string `csv:"date"`
+	Tests                    string `csv:"tests"`
+	Confirmed                string `csv:"confirmed"`
+	Deaths                   string `csv:"deaths"`
+	Recovered                string `csv:"recovered"`
+	Hosp                     string `csv:"hosp"`
+	Vent                     string `csv:"vent"`
+	Icu                      string `csv:"icu"`
+	Severe                   string `csv:"severe"`
+	Population               string `csv:"population"`
+	AdministrativeAreaLevel  string `csv:"administrative_area_level"`
+	AdministrativeAreaLevel1 string `csv:"administrative_area_level_1"`
+	AdministrativeAreaLevel2 string `csv:"administrative_area_level_2"`
+	JisCode                  string `csv:"jis_code"`
 }
