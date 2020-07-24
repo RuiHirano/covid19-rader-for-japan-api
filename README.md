@@ -19,291 +19,130 @@ if your project is not listed here,let us know!
 
 
 # Usage
-
-1. [Patients Data](#anchor1)
-2. [Prefecture Data](#anchor2)
-3. [DetailByRegion Data](#anchor3)
-4. [DailyReport Data](#anchor4)
-5. [DailyPositiveByPref Data](#anchor5)
-6. [DailyDeathByPref Data](#anchor6)
-7. [DailyCallcenter Data](#anchor7)
-8. [DailyShip Data](#anchor8)
-9. [News Data](#anchor9)
-10. [Statistics Data(Duplicated)](#anchor10)
+1. [DailyPositiveByPref Data](#anchor1)
+2. [Daitailf Data](#anchor2)
+3. [DailyDetailByPref Data](#anchor3)
+4. [DailyCallcenter Data](#anchor4)
+5. [News Data](#anchor5)
+6. [Summary Data](#anchor6)
+7. [WorldSummary Data](#anchor7)
 
 <a id="anchor1"></a>
-## Patients Data
+## 1. DailyPositiveByPref Data
 
 **Dataset**
 
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/positiveDetail.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/positiveDetail.csv)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/byDate.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/byDate.csv)
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/patients](https://covid19-rader-for-japan.appspot.com/api/v1/patients)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref](https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/patients
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref
+// or at local
+$ curl https://localhost:5000/api/v2/daily/positive_by_pref
 ```
 
 **Response:**
 ```json
 [
     {
-        "id":"ID01001",
-        "date":"2020/01/28",
-        "prefecture":"北海道",
-        "residence":"国外（武漢市）",
-        "age":"40代",
-        "sex":"女性",
-        "attribute":"来日観光客",
-        "prefecture_number":"北海道1",
-        "travel_or_contact":"渡航歴",
-        "detail":"中国（武漢）",
-        "src":"https://www.mhlw.go.jp/stf/newpage_09158.html",
-        "onset":"2020/01/26",
-        "symptom":"1",
-        "death_or_discharge_date":"",
-        "comment1":"",
-        "comment2":"",
-        "outcome":"",
-        "outcome_src":""},{"id":"ID01002",
+        "date":"20200330",
+        "hokkaido":"",
+        "aomori":"",
+        "iwate":"",
+        ...
+        "tokyo":"1",
+        "kanagawa":"1",
+        "niigata":"",
+        "oita":"",
+        "charter":"",
+        "quarantine_officer":"",
+        "cruise":"1"
     },
-    {
-        "date":"2020/02/14",
-        "prefecture":"北海道",
-        "residence":"札幌市",
-        "age":"50代",
-        "sex":"男性",
-        "attribute":"来日観光客",
-        "prefecture_number":"北海道2",
-        "travel_or_contact":"",
-        "detail":"",
-        "src":"http://www.pref.hokkaido.lg.jp/hf/kth/kak/hasseijoukyou.htm",
-        "onset":"2020/01/31",
-        "symptom":"1",
-        "death_or_discharge_date":"",
-        "comment1":"",
-        "comment2":"",
-        "outcome":"",
-        "outcome_src":""
-    },
-...
+  ...
+]
 ```
 
 <a id="anchor2"></a>
-## Prefecture Data
+
+## 2. DailyDeathByPref Data
 
 **Dataset**
 
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/prefectures.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/prefectures.csv)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/death.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/death.csv)
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/prefectures](https://covid19-rader-for-japan.appspot.com/api/v1/prefectures)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref](https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/prefectures
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref
 ```
 
 **Response:**
 ```json
 [
-  {
-    "id": 1,
-    "name_ja": "北海道",
-    "name_en": "Hokkaido",
-    "regions": "0", 
-    "lat": "43.46722222",
-    "lng": "142.8277778",
-  },
-  {
-    "id": 2,
-    "name_ja": "青森",
-    "name_en": "Aomori",
-    "regions": "1", 
-    "lat": "40.78027778",
-    "lng": "140.83194440000003",
-  },
+    {
+        "date":"20200330",
+        "hokkaido":"",
+        "aomori":"",
+        "iwate":"",
+        ...
+        "tokyo":"1",
+        "kanagawa":"1",
+        "niigata":"",
+        "oita":"",
+        "charter":"",
+        "quarantine_officer":"",
+        "cruise":"1"
+    },
   ...
 ]
 ```
 
 <a id="anchor3"></a>
-## DetailByRegion Data
+
+## 3. DailyDetailByPref Data
 
 **Dataset**
 
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/detailByRegion.csv)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/covid19_jp.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/covid19_jp.csv)
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/detail-by-region](https://covid19-rader-for-japan.appspot.com/api/v1/detail-by-region)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref](https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/detail-by-region
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200319",
-        "prefecture":"北海道",
-        "cases":153,
-        "hospital":77,
-        "discharge":69,
-        "deaths":7
+        "date":"20200206",
+        "tests":"698",
+        "confirmed":"25",
+        "deaths":"0",
+        "recovered":"4",
+        "hosp":"18",
+        "vent":"",
+        "icu":"",
+        "severe":"0",
+        "population":"126216142",
+        "administrative_area_level":"1",
+        "administrative_area_level_1":"Japan",
+        "administrative_area_level_2":"",
+        "jis_code":""
     },
-    {
-        "date":"20200319",
-        "prefecture":"愛知県",
-        "cases":123,
-        "hospital":106,
-        "discharge":3,
-        "deaths":14
-    },
+
   ...
 ]
 ```
 
 <a id="anchor4"></a>
-## DailyReport Data
+## 4. DailyCallCenter Data
 
 **Dataset**
 
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/resultDailyReport.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/resultDailyReport.csv)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/MHLW/callCenter.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/MHLW/callCenter.csv)
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/daily/report](https://covid19-rader-for-japan.appspot.com/api/v1/daily/report)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter](https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/daily/report
-```
-
-**Response:**
-```json
-[
-    {
-        "Date":"2020-02-06",
-        "PcrD":"132",
-        "PositiveD":"16",
-        "SymptomD":"16",
-        "SymptomlessD":"0",
-        "SymptomConfirmingD":"0",
-        "HospitalizeD":"9",
-        "MildD":"0",
-        "SevereD":"0",
-        "ConfirmingD":"3",
-        "WaitingD":"0",
-        "DischargeD":"4",
-        "DeathD":"0",
-        "PcrF":"566",
-        "PositiveF":"9",
-        "SymptomF":"5",
-        "SymptomlessF":"4",
-        "SymptomConfirmingF":"0",
-        "HospitalizeF":"9",
-        "MildF":"7",
-        "SevereF":"0",
-        "ConfirmingF":"2",
-        "WaitingF":"0",
-        "DischargeF":"0",
-        "DeathF":"0",
-        "PcrX":"",
-        "PositiveX":"",
-        "Symptom":"",
-        "Symptomless":"",
-        "SymptomConfirming":"",
-        "Hospitalized":"",
-        "Mild":"",
-        "SevereX":"",
-        "Confirming":"",
-        "Waiting":"",
-        "DischargeX":"",
-        "DeathX":"",
-        "PcrY":"31",
-        "PositiveY":"10",
-        "DischargeY":"",
-        "SymptomlessDischarge":"",
-        "SymptomDischarge":"",
-        "SevereY":"",
-        "DeathY":"0",
-        "Pcr":"729",
-        "Discharge":"4",
-        "PcrDiff":"",
-        "DischargeDiff":""
-    }
-  ...
-]
-```
-
-<a id="anchor5"></a>
-## DailyPositiveByPref Data
-
-**Dataset**
-
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/byDate.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/byDate.csv)
-
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/daily/positive-by-pref](https://covid19-rader-for-japan.appspot.com/api/v1/daily/positive-by-pref)
-```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/daily/positive-by-pref
-```
-
-**Response:**
-```json
-[
-    {
-        "date":"20200330",
-        "hokkaido":"",
-        "aomori":"",
-        "iwate":"",
-        ...
-        "tokyo":"1",
-        "kanagawa":"1",
-        "niigata":"",
-        "oita":"",
-        "charter":"",
-        "quarantine_officer":"",
-        "cruise":"1"
-    },
-  ...
-]
-```
-
-<a id="anchor6"></a>
-
-## DailyDeathByPref Data
-
-**Dataset**
-
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/death.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/death.csv)
-
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/daily/death-by-pref](https://covid19-rader-for-japan.appspot.com/api/v1/daily/death-by-pref)
-```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/daily/death-by-pref
-```
-
-**Response:**
-```json
-[
-    {
-        "date":"20200330",
-        "hokkaido":"",
-        "aomori":"",
-        "iwate":"",
-        ...
-        "tokyo":"1",
-        "kanagawa":"1",
-        "niigata":"",
-        "oita":"",
-        "charter":"",
-        "quarantine_officer":"",
-        "cruise":"1"
-    },
-  ...
-]
-```
-
-<a id="anchor7"></a>
-## DailyCallCenter Data
-
-**Dataset**
-
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/callCenter.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/callCenter.csv)
-
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/daily/callcenter](https://covid19-rader-for-japan.appspot.com/api/v1/daily/callcenter)
-```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/daily/callcenter
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter
 ```
 
 **Response:**
@@ -327,55 +166,16 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v1/daily/callcenter
 ]
 ```
 
-<a id="anchor8"></a>
-## DailyShip Data
+<a id="anchor5"></a>
+## 5. DailyNews Data
 
 **Dataset**
 
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/shipDailyReport.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/shipDailyReport.csv)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/mhlw_houdou.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/mhlw_houdou.csv)
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/daily/ship](https://covid19-rader-for-japan.appspot.com/api/v1/daily/ship)
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/news](https://covid19-rader-for-japan.appspot.com/api/v2/news)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/daily/ship
-```
-
-**Response:**
-```json
-[
-    {
-        "date":"20200205",
-        "pcr":"31",
-        "positive":"10",
-        "discharge":"",
-        "symotomless_discharge":"",
-        "symotom_discharge":"",
-        "severe":"",
-        "death":"0"
-    },
-    {
-        "date":"20200206",
-        "pcr":"",
-        "positive":"",
-        "discharge":"",
-        "symotomless_discharge":"",
-        "symotom_discharge":"",
-        "severe":"",
-        "death":"0"
-    },
-    ...
-]
-```
-
-<a id="anchor9"></a>
-## DailyNews Data
-
-**Dataset**
-
-[https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/mhlw_houdou.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/Data/mhlw_houdou.csv)
-
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/news](https://covid19-rader-for-japan.appspot.com/api/v1/news)
-```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/news
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/news
 ```
 
 **Response:**
@@ -385,129 +185,86 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v1/news
         "id":"1",
         "date":"20200116",
         "title":"新型コロナウイルスに関連した肺炎の患者の発生について（1例目）",
-        "Link":"https://www.mhlw.go.jp/stf/newpage_08906.html"
+        "link":"https://www.mhlw.go.jp/stf/newpage_08906.html",
+        "pre":"神奈川",
+        "resident":"日本"
     },
     {
         "id":"2",
         "date":"20200124",
         "title":"新型コロナウイルスに関連した肺炎の患者の発生について（2例目）",
-        "Link":"https://www.mhlw.go.jp/stf/newpage_09079.html"
+        "link":"https://www.mhlw.go.jp/stf/newpage_09079.html",
+        "pre":"神奈川",
+        "resident":"日本"
     },
 ...
 ]
 ```
 
-<a id="anchor10"></a>
-## Statistics Data
+<a id="anchor6"></a>
+## 6. Summary Data
 
-### Caution!
-```
-This is duplicated because calculation of total data may be wrong.
-Please use detailByRegion data.
-```
+**Dataset**
 
-**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v1/stats](https://covid19-rader-for-japan.appspot.com/api/v1/stats)
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/MHLW/summary.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/50_Data/MHLW/summary.csv)
+
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/summary](https://covid19-rader-for-japan.appspot.com/api/v2/summary)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v1/stats
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/summary
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200319",
-        "prefecture":"北海道",
-        "cases":0,
-        "total_cases":153,
-        "hospital":0,
-        "total_hospitals":77,
-        "discharge":0,
-        "total_discharges":69,
-        "deaths":0,
-        "total_deaths":7,
-        "sex_data":{
-            "female":0,
-            "male":0,
-            "unknown":0
-        },
-        "total_sex_data":{
-            "female":0,
-            "male":0,
-            "unknown":0
-        },
-        "age_data":{
-            "age_10":0,
-            "age_20":0,
-            "age_30":0,
-            "age_40":0,
-            "age_50":0,
-            "age_60":0,
-            "age_70":0,
-            "age_80":0,
-            "age_90":0,
-            "age_unknown":0
-        },
-        "total_age_data":{
-            "age_10":0,
-            "age_20":0,
-            "age_30":0,
-            "age_40":0,
-            "age_50":0,
-            "age_60":0,
-            "age_70":0,
-            "age_80":0,
-            "age_90":0,
-            "age_unknown":0
-        }
+        "date":"20200205",
+        "prefecture":"クルーズ船",
+        "positives":"10",
+        "pcrs":"31",
+        "hospitals":"",
+        "severes":"",
+        "discharges":"",
+        "deaths":"0",
+        "checking":"",
+        "class":"3"
     },
+...
+]
+```
+
+<a id="anchor7"></a>
+## 7. World Summary Data
+
+**Dataset**
+
+[https://github.com/swsoyee/2019-ncov-japan/blob/master/FIND/worldSummary.csv](https://github.com/swsoyee/2019-ncov-japan/blob/master/FIND/worldSummary.csv)
+
+**Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/world_summary](https://covid19-rader-for-japan.appspot.com/api/v2/world_summary)
+```bash
+$ curl https://covid19-rader-for-japan.appspot.com/api/v2/world_summary
+```
+
+**Response:**
+```json
+[
     {
-        "date":"20200319",
-        "prefecture":"愛知県",
-        "cases":0,
-        "total_cases":123,
-        "hospital":0,
-        "total_hospitals":106,
-        "discharge":0,
-        "total_discharges":3,
-        "deaths":0,
-        "total_deaths":14,
-        "sex_data":{
-            "female":0,
-            "male":0,
-            "unknown":0
-        },
-        "total_sex_data":{
-            "female":0,
-            "male":0,
-            "unknown":0
-        },
-        "age_data":{
-            "age_10":0,
-            "age_20":0,
-            "age_30":0,
-            "age_40":0,
-            "age_50":0,
-            "age_60":0,
-            "age_70":0,
-            "age_80":0,
-            "age_90":0,
-            "age_unknown":0
-        },
-        "total_age_data":{
-            "age_10":0,
-            "age_20":0,
-            "age_30":0,
-            "age_40":0,
-            "age_50":0,
-            "age_60":0,
-            "age_70":0,
-            "age_80":0,
-            "age_90":0,
-            "age_unknown":0
-        }
-    }
+        "date":"20200224",
+        "update":"34",
+        "cases":"1",
+        "new_cases":"1",
+        "deaths":"0",
+        "country":"Afghanistan",
+        "last_update":"",
+        "population":"38928000",
+        "casesPer100k":"0",
+        "new_tests":"",
+        "tests_cumulative":"",
+        "testsPer100k":"",
+        "positiveRate":""
+    },
 
 ...
+]
 ```
 
 # Data Sources
