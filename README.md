@@ -17,6 +17,16 @@ if your project is not listed here,let us know!
 ## Covid19-rader-for-japan
 [https://covid19-rader-for-japan.com](https://covid19-rader-for-japan.com)
 
+# Getting Started
+```
+$ git clone https://github.com/RuiHirano/covid19-rader-for-japan-api.git
+$ cd covid19-rader
+$ git submodule init
+$ git submodule update
+$ cd src
+$ go run main.go
+```
+You can get information at http://localhost:5000/api/v2/....
 
 # Usage
 1. [DailyPositiveByPref Data](#anchor1)
@@ -36,7 +46,7 @@ if your project is not listed here,let us know!
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref](https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/positive_by_pref
 // or at local
 $ curl https://localhost:5000/api/v2/daily/positive_by_pref
 ```
@@ -45,8 +55,8 @@ $ curl https://localhost:5000/api/v2/daily/positive_by_pref
 ```json
 [
     {
-        "date":"20200330",
-        "hokkaido":"",
+        "date":"20200330",          // 日付
+        "hokkaido":"",              // 北海道における死亡者数
         "aomori":"",
         "iwate":"",
         ...
@@ -72,15 +82,17 @@ $ curl https://localhost:5000/api/v2/daily/positive_by_pref
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref](https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref
+// or at local
+$ curl https://localhost:5000/api/v2/daily/death_by_pref
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200330",
-        "hokkaido":"",
+        "date":"20200330",          // 日付
+        "hokkaido":"",              // 北海道における死亡者数
         "aomori":"",
         "iwate":"",
         ...
@@ -89,8 +101,8 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref
         "niigata":"",
         "oita":"",
         "charter":"",
-        "quarantine_officer":"",
-        "cruise":"1"
+        "quarantine_officer":"",    // 検疫官の死亡者数
+        "cruise":"1"                // クルーズ船での死亡者数
     },
   ...
 ]
@@ -106,27 +118,29 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/death_by_pref
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref](https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref
+// or at local
+$ curl https://localhost:5000/api/v2/daily/detail_by_pref
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200206",
-        "tests":"698",
-        "confirmed":"25",
-        "deaths":"0",
-        "recovered":"4",
-        "hosp":"18",
-        "vent":"",
-        "icu":"",
-        "severe":"0",
-        "population":"126216142",
-        "administrative_area_level":"1",
-        "administrative_area_level_1":"Japan",
-        "administrative_area_level_2":"",
-        "jis_code":""
+        "date":"20200206",                      // 日付
+        "tests":"698",                          // 検査数
+        "confirmed":"25",                       // 確認済み
+        "deaths":"0",                           // 死亡者数
+        "recovered":"4",                        // 回復者数
+        "hosp":"18",                            // 入院者数
+        "vent":"",                              // 
+        "icu":"",                               // 
+        "severe":"0",                           // 重症者数
+        "population":"126216142",               // 人口
+        "administrative_area_level":"1",        // 管理エリアレベル
+        "administrative_area_level_1":"Japan",  // 
+        "administrative_area_level_2":"",       // 
+        "jis_code":""                           // JISコード
     },
 
   ...
@@ -142,18 +156,20 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/detail_by_pref
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter](https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter
+// or at local
+$ curl https://localhost:5000/api/v2/daily/callcenter
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200128",
-        "call":"99",
-        "fax":"",
-        "mail":"",
-        "line":"3"
+        "date":"20200128",     // 日付
+        "call":"99",           // 電話問合せ件数
+        "fax":"",              // fax件数
+        "mail":"",             // mail件数
+        "line":"3"             // 
     },
     {
         "date":"20200129",
@@ -175,22 +191,22 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v2/daily/callcenter
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/news](https://covid19-rader-for-japan.appspot.com/api/v2/news)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/news
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/news
+// or at local
+$ curl https://localhost:5000/api/v2/news
 ```
 
 **Response:**
 ```json
 [
-    {
-        "id":"1",
-        "date":"20200116",
-        "title":"新型コロナウイルスに関連した肺炎の患者の発生について（1例目）",
-        "link":"https://www.mhlw.go.jp/stf/newpage_08906.html",
-        "pre":"神奈川",
-        "resident":"日本"
+    {                                                      
+        "date":"20200116",                                              // 日付
+        "title":"新型コロナウイルスに関連した肺炎の患者の発生について（1例目）",  // タイトル
+        "link":"https://www.mhlw.go.jp/stf/newpage_08906.html",         // URL
+        "pre":"神奈川",                                                  // 都道府県名
+        "resident":"日本"                                               // 国名
     },
     {
-        "id":"2",
         "date":"20200124",
         "title":"新型コロナウイルスに関連した肺炎の患者の発生について（2例目）",
         "link":"https://www.mhlw.go.jp/stf/newpage_09079.html",
@@ -210,23 +226,25 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v2/news
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/summary](https://covid19-rader-for-japan.appspot.com/api/v2/summary)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/summary
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/summary
+// or at local
+$ curl https://localhost:5000/api/v2/summary
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200205",
-        "prefecture":"クルーズ船",
-        "positives":"10",
-        "pcrs":"31",
-        "hospitals":"",
-        "severes":"",
-        "discharges":"",
-        "deaths":"0",
-        "checking":"",
-        "class":"3"
+        "date":"20200205",          // 日付
+        "prefecture":"クルーズ船",    // 都道府県
+        "positives":"10",           // 陽性者数
+        "pcrs":"31",                // 検査人数
+        "hospitals":"",             // 入院者数
+        "severes":"",               // 重症者数
+        "discharges":"",            // 退院者数
+        "deaths":"0",               // 死亡者数
+        "checking":"",              // 確認中
+        "class":"3"                 // 分類
     },
 ...
 ]
@@ -241,26 +259,28 @@ $ curl https://covid19-rader-for-japan.appspot.com/api/v2/summary
 
 **Endpont**: [https://covid19-rader-for-japan.appspot.com/api/v2/world_summary](https://covid19-rader-for-japan.appspot.com/api/v2/world_summary)
 ```bash
-$ curl https://covid19-rader-for-japan.appspot.com/api/v2/world_summary
+// $ curl https://covid19-rader-for-japan.appspot.com/api/v2/world_summary
+// or at local
+$ curl https://localhost:5000/api/v2/world_summary
 ```
 
 **Response:**
 ```json
 [
     {
-        "date":"20200224",
-        "update":"34",
-        "cases":"1",
-        "new_cases":"1",
-        "deaths":"0",
-        "country":"Afghanistan",
-        "last_update":"",
-        "population":"38928000",
-        "casesPer100k":"0",
-        "new_tests":"",
-        "tests_cumulative":"",
-        "testsPer100k":"",
-        "positiveRate":""
+        "date":"20200224",          // 日付
+        "update":"34",              // 
+        "cases":"1",                // 件数
+        "new_cases":"1",            // 新規件数
+        "deaths":"0",               // 死亡者数
+        "country":"Afghanistan",    // 国名
+        "last_update":"",           // 
+        "population":"38928000",    // 人口
+        "casesPer100k":"0",         // 10万人あたりの件数割合
+        "new_tests":"",             // 新規検査人数
+        "tests_cumulative":"",      // 累計検査人数
+        "testsPer100k":"",          // 10万人あたりの検査人数割合
+        "positiveRate":""           // 陽性者率
     },
 
 ...
