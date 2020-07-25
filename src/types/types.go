@@ -30,7 +30,7 @@ type DateWorldSummary struct {
 }
 
 type News struct {
-	ID         string `json:"id" csv:"id"`
+	//ID         string `json:"id" csv:"id"`
 	Date       string `json:"date" csv:"date"`
 	Title      string `json:"title" csv:"title"`
 	Link       string `json:"link" csv:"link"`

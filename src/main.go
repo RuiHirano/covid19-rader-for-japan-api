@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"handler"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"regexp"
 	"types"
 
@@ -16,14 +18,20 @@ import (
 )
 
 var (
-	SRC_DIR string
+	SRC_DIR  string
+	ROOT_DIR string
 )
 
 func init() {
-	// csv読み込み
+	// src dir
 	p, _ := os.Getwd()
 	fmt.Println(p)
 	SRC_DIR = p
+	// root dir
+	os.Chdir("..")
+	p, _ = os.Getwd()
+	fmt.Println(p)
+	ROOT_DIR = p
 
 	// for test
 	/*dpp := fetchDailyPositiveByPref()
@@ -57,10 +65,29 @@ func init() {
 }
 
 func fetchDataSceduler() {
-	scheduler.Every(2).Hours().Run(fetchData)
+	scheduler.Every(2).Hours().Run(
+		func() {
+			updateDataset()
+			readDataset()
+		})
 }
 
-func fetchData() {
+func updateDataset() {
+	cmd := exec.Command("bash", ROOT_DIR+"/update_dataset.sh")
+	fmt.Printf("cmd: %s\n", cmd.String())
+	stdout, _ := cmd.StdoutPipe()
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	s := bufio.NewScanner(stdout)
+	for s.Scan() {
+		outLine := s.Text() // output line 出力一行
+		fmt.Printf("%v\n", outLine)
+	}
+}
+
+func readDataset() {
 
 	// dailyPositiveByPref data
 	dailyPositiveByPref := fetchDailyPositiveByPref()
